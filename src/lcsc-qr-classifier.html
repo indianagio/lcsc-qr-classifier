@@ -7,60 +7,40 @@
 <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
 <style>
   :root, [data-theme="light"] {
-    --color-bg: #f7f6f2;
-    --color-surface: #f9f8f5;
-    --color-surface-2: #fbfbf9;
-    --color-surface-offset: #f3f0ec;
-    --color-divider: #dcd9d5;
-    --color-border: #d4d1ca;
-    --color-text: #28251d;
-    --color-text-muted: #7a7974;
-    --color-text-faint: #bab9b4;
-    --color-primary: #01696f;
-    --color-primary-hover: #0c4e54;
-    --color-primary-highlight: #cedcd8;
-    --color-success: #437a22;
-    --color-success-highlight: #d4dfcc;
-    --color-warning: #964219;
-    --color-warning-highlight: #ddcfc6;
-    --color-error: #a12c7b;
-    --color-blue: #006494;
-    --color-blue-highlight: #c6d8e4;
-    --color-orange: #da7101;
-    --color-orange-highlight: #e7d7c4;
-    --color-gold: #d19900;
-    --color-gold-highlight: #e9e0c6;
-    --color-purple: #7a39bb;
-    --color-purple-highlight: #dacfde;
-    --color-notification: #a13544;
-    --color-notification-highlight: #dececb;
+    --color-bg: #f7f6f2; --color-surface: #f9f8f5; --color-surface-2: #fbfbf9;
+    --color-surface-offset: #f3f0ec; --color-divider: #dcd9d5; --color-border: #d4d1ca;
+    --color-text: #28251d; --color-text-muted: #7a7974; --color-text-faint: #bab9b4;
+    --color-primary: #01696f; --color-primary-hover: #0c4e54; --color-primary-highlight: #cedcd8;
+    --color-success: #437a22; --color-success-highlight: #d4dfcc;
+    --color-warning: #964219; --color-warning-highlight: #ddcfc6;
+    --color-error: #a12c7b; --color-error-highlight: #e0ced7;
+    --color-blue: #006494; --color-blue-highlight: #c6d8e4;
+    --color-orange: #da7101; --color-orange-highlight: #e7d7c4;
+    --color-gold: #d19900; --color-gold-highlight: #e9e0c6;
+    --color-purple: #7a39bb; --color-purple-highlight: #dacfde;
+    --color-notification: #a13544; --color-notification-highlight: #dececb;
     --shadow-md: 0 4px 12px oklch(0.2 0.01 80 / 0.08);
     --shadow-lg: 0 12px 32px oklch(0.2 0.01 80 / 0.12);
-    --radius-sm: 0.375rem;
-    --radius-md: 0.5rem;
-    --radius-lg: 0.75rem;
-    --radius-xl: 1rem;
-    --radius-full: 9999px;
+    --radius-sm: 0.375rem; --radius-md: 0.5rem; --radius-lg: 0.75rem;
+    --radius-xl: 1rem; --radius-full: 9999px;
     --font-body: 'Satoshi', 'Helvetica Neue', sans-serif;
-    --text-xs:   clamp(0.75rem,  0.7rem  + 0.25vw, 0.875rem);
-    --text-sm:   clamp(0.875rem, 0.8rem  + 0.35vw, 1rem);
-    --text-base: clamp(1rem,     0.95rem + 0.25vw, 1.125rem);
-    --text-lg:   clamp(1.125rem, 1rem    + 0.75vw, 1.5rem);
-    --text-xl:   clamp(1.5rem,   1.2rem  + 1.25vw, 2.25rem);
-    --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem;
-    --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem;
-    --space-12: 3rem; --space-16: 4rem;
+    --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+    --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+    --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+    --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+    --space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;
+    --space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;
+    --space-12:3rem;--space-16:4rem;
     --transition: 180ms cubic-bezier(0.16, 1, 0.3, 1);
   }
   [data-theme="dark"] {
     --color-bg: #171614; --color-surface: #1c1b19; --color-surface-2: #201f1d;
     --color-surface-offset: #1d1c1a; --color-divider: #262523; --color-border: #393836;
     --color-text: #cdccca; --color-text-muted: #797876; --color-text-faint: #5a5957;
-    --color-primary: #4f98a3; --color-primary-hover: #227f8b;
-    --color-primary-highlight: #313b3b;
+    --color-primary: #4f98a3; --color-primary-hover: #227f8b; --color-primary-highlight: #313b3b;
     --color-success: #6daa45; --color-success-highlight: #3a4435;
     --color-warning: #bb653b; --color-warning-highlight: #564942;
-    --color-error: #d163a7;
+    --color-error: #d163a7; --color-error-highlight: #4c3d46;
     --color-blue: #5591c7; --color-blue-highlight: #3a4550;
     --color-orange: #fdab43; --color-orange-highlight: #564b3e;
     --color-gold: #e8af34; --color-gold-highlight: #4d4332;
@@ -69,77 +49,108 @@
     --shadow-md: 0 4px 12px oklch(0 0 0 / 0.3);
     --shadow-lg: 0 12px 32px oklch(0 0 0 / 0.4);
   }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
-  body {
-    min-height: 100dvh; font-family: var(--font-body);
-    font-size: var(--text-base); color: var(--color-text);
-    background-color: var(--color-bg); line-height: 1.6;
-  }
-  img, svg { display: block; max-width: 100%; }
-  button { cursor: pointer; background: none; border: none; font: inherit; color: inherit; }
-  input, textarea { font: inherit; color: inherit; }
-  :focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; border-radius: var(--radius-sm); }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+  body{min-height:100dvh;font-family:var(--font-body);font-size:var(--text-base);color:var(--color-text);background:var(--color-bg);line-height:1.6}
+  img,svg{display:block;max-width:100%}
+  button{cursor:pointer;background:none;border:none;font:inherit;color:inherit}
+  input{font:inherit;color:inherit}
+  :focus-visible{outline:2px solid var(--color-primary);outline-offset:3px;border-radius:var(--radius-sm)}
 
-  .app { max-width: 760px; margin: 0 auto; padding: var(--space-8) var(--space-4); }
-  .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-10); }
-  .logo { display: flex; align-items: center; gap: var(--space-3); }
-  .logo-icon { width: 36px; height: 36px; color: var(--color-primary); flex-shrink: 0; }
-  .logo-text { font-size: var(--text-lg); font-weight: 700; letter-spacing: -0.02em; }
-  .logo-sub { font-size: var(--text-xs); color: var(--color-text-muted); letter-spacing: 0.06em; text-transform: uppercase; }
-  .theme-toggle { padding: var(--space-2); border-radius: var(--radius-full); color: var(--color-text-muted); transition: color var(--transition), background var(--transition); }
-  .theme-toggle:hover { color: var(--color-text); background: var(--color-surface-offset); }
-  .input-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-6); box-shadow: var(--shadow-md); margin-bottom: var(--space-6); }
-  .input-label { font-size: var(--text-sm); font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: var(--space-3); display: block; }
-  .input-row { display: flex; gap: var(--space-3); }
-  .qr-input { flex: 1; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); font-size: var(--text-base); color: var(--color-text); transition: border-color var(--transition), box-shadow var(--transition); }
-  .qr-input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 3px oklch(from var(--color-primary) l c h / 0.15); }
-  .qr-input::placeholder { color: var(--color-text-faint); }
-  .btn-parse { background: var(--color-primary); color: #fff; font-weight: 600; padding: var(--space-3) var(--space-6); border-radius: var(--radius-md); font-size: var(--text-sm); transition: background var(--transition), transform var(--transition); white-space: nowrap; }
-  .btn-parse:hover { background: var(--color-primary-hover); }
-  .btn-parse:active { transform: scale(0.97); }
-  .hint { font-size: var(--text-xs); color: var(--color-text-faint); margin-top: var(--space-2); }
-  .hint code { font-family: 'Courier New', monospace; font-size: 0.9em; background: var(--color-surface-offset); padding: 1px 4px; border-radius: var(--radius-sm); color: var(--color-text-muted); }
-  .result { display: none; }
-  .result.visible { display: block; animation: fadeUp 0.3s ease; }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-  .category-badge-wrapper { margin-bottom: var(--space-6); }
-  .category-badge { display: inline-flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-5); border-radius: var(--radius-full); font-weight: 700; font-size: var(--text-lg); letter-spacing: -0.01em; }
-  .category-badge .badge-icon { font-size: 1.4em; }
-  .category-sub { font-size: var(--text-sm); color: var(--color-text-muted); margin-top: var(--space-2); margin-left: var(--space-1); }
-  .fields-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-md); margin-bottom: var(--space-6); }
-  .fields-title { font-size: var(--text-xs); font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.08em; padding: var(--space-4) var(--space-5); border-bottom: 1px solid var(--color-divider); }
-  .fields-grid { display: grid; grid-template-columns: 1fr 1fr; }
-  @media (max-width: 540px) { .fields-grid { grid-template-columns: 1fr; } }
-  .field-row { padding: var(--space-3) var(--space-5); border-bottom: 1px solid var(--color-divider); display: flex; flex-direction: column; gap: var(--space-1); }
-  .field-row:nth-child(odd) { background: var(--color-surface-2); }
-  .field-key { font-size: var(--text-xs); color: var(--color-text-faint); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
-  .field-val { font-size: var(--text-sm); font-weight: 500; color: var(--color-text); word-break: break-all; }
-  .field-desc { font-size: var(--text-xs); color: var(--color-text-muted); }
-  .qty-val { font-size: var(--text-lg); font-weight: 700; color: var(--color-primary); }
-  .error-msg { background: color-mix(in oklch, var(--color-error) 10%, var(--color-surface)); border: 1px solid color-mix(in oklch, var(--color-error) 25%, var(--color-border)); color: var(--color-error); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); font-size: var(--text-sm); margin-top: var(--space-3); display: none; }
-  .error-msg.visible { display: block; }
-  .history-section { margin-top: var(--space-10); }
-  .history-title { font-size: var(--text-xs); font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: var(--space-4); display: flex; align-items: center; justify-content: space-between; }
-  .btn-clear { font-size: var(--text-xs); color: var(--color-error); font-weight: 600; padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm); transition: background var(--transition); }
-  .btn-clear:hover { background: color-mix(in oklch, var(--color-error) 10%, transparent); }
-  .history-list { display: flex; flex-direction: column; gap: var(--space-2); }
-  .history-item { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-3) var(--space-4); display: flex; align-items: center; gap: var(--space-3); cursor: pointer; transition: background var(--transition), border-color var(--transition); }
-  .history-item:hover { background: var(--color-surface-offset); border-color: var(--color-primary); }
-  .history-badge { font-size: 1.2em; flex-shrink: 0; }
-  .history-info { flex: 1; min-width: 0; }
-  .history-part { font-size: var(--text-sm); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .history-meta { font-size: var(--text-xs); color: var(--color-text-muted); }
-  .history-qty { font-size: var(--text-xs); font-weight: 700; color: var(--color-primary); background: var(--color-primary-highlight); padding: 2px 8px; border-radius: var(--radius-full); flex-shrink: 0; }
-  .history-empty { font-size: var(--text-sm); color: var(--color-text-faint); text-align: center; padding: var(--space-6); }
-  .footer { margin-top: var(--space-12); padding-top: var(--space-6); border-top: 1px solid var(--color-divider); text-align: center; font-size: var(--text-xs); color: var(--color-text-faint); }
+  .app{max-width:760px;margin:0 auto;padding:var(--space-8) var(--space-4)}
+
+  /* Header */
+  .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-10)}
+  .logo{display:flex;align-items:center;gap:var(--space-3)}
+  .logo-icon{width:36px;height:36px;color:var(--color-primary);flex-shrink:0}
+  .logo-text{font-size:var(--text-lg);font-weight:700;letter-spacing:-0.02em}
+  .logo-sub{font-size:var(--text-xs);color:var(--color-text-muted);letter-spacing:.06em;text-transform:uppercase}
+  .theme-toggle{padding:var(--space-2);border-radius:var(--radius-full);color:var(--color-text-muted);transition:color var(--transition),background var(--transition)}
+  .theme-toggle:hover{color:var(--color-text);background:var(--color-surface-offset)}
+
+  /* Tab switcher */
+  .tabs{display:flex;gap:var(--space-2);margin-bottom:var(--space-4);background:var(--color-surface-offset);border-radius:var(--radius-lg);padding:var(--space-1)}
+  .tab{flex:1;text-align:center;padding:var(--space-2) var(--space-4);border-radius:calc(var(--radius-lg) - 3px);font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);transition:all var(--transition)}
+  .tab.active{background:var(--color-surface);color:var(--color-text);box-shadow:var(--shadow-md)}
+
+  /* Input card */
+  .input-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:var(--space-6);box-shadow:var(--shadow-md);margin-bottom:var(--space-6)}
+  .input-label{font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:var(--space-3);display:block}
+  .input-row{display:flex;gap:var(--space-3)}
+  .main-input{flex:1;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);font-size:var(--text-base);transition:border-color var(--transition),box-shadow var(--transition)}
+  .main-input:focus{outline:none;border-color:var(--color-primary);box-shadow:0 0 0 3px oklch(from var(--color-primary) l c h / 0.15)}
+  .main-input::placeholder{color:var(--color-text-faint)}
+  .btn-primary{background:var(--color-primary);color:#fff;font-weight:600;padding:var(--space-3) var(--space-6);border-radius:var(--radius-md);font-size:var(--text-sm);transition:background var(--transition),transform var(--transition);white-space:nowrap}
+  .btn-primary:hover{background:var(--color-primary-hover)}
+  .btn-primary:active{transform:scale(0.97)}
+  .hint{font-size:var(--text-xs);color:var(--color-text-faint);margin-top:var(--space-2)}
+  .hint code{font-family:'Courier New',monospace;font-size:.9em;background:var(--color-surface-offset);padding:1px 4px;border-radius:var(--radius-sm);color:var(--color-text-muted)}
+  .pane{display:none}.pane.active{display:block}
+
+  /* API status badge */
+  .api-status{display:inline-flex;align-items:center;gap:var(--space-2);font-size:var(--text-xs);font-weight:600;padding:var(--space-1) var(--space-3);border-radius:var(--radius-full);margin-top:var(--space-3)}
+  .api-status.loading{background:var(--color-gold-highlight);color:var(--color-gold)}
+  .api-status.ok{background:var(--color-success-highlight);color:var(--color-success)}
+  .api-status.fallback{background:var(--color-warning-highlight);color:var(--color-warning)}
+  .api-status.hidden{display:none}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .spinner{width:10px;height:10px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite}
+
+  /* Result */
+  .result{display:none}
+  .result.visible{display:block;animation:fadeUp .3s ease}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .category-badge-wrapper{margin-bottom:var(--space-6)}
+  .category-badge{display:inline-flex;align-items:center;gap:var(--space-3);padding:var(--space-3) var(--space-5);border-radius:var(--radius-full);font-weight:700;font-size:var(--text-lg);letter-spacing:-.01em}
+  .badge-icon{font-size:1.4em}
+  .category-sub{font-size:var(--text-sm);color:var(--color-text-muted);margin-top:var(--space-2);margin-left:var(--space-1)}
+
+  /* API extra info */
+  .api-info{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:var(--space-4) var(--space-5);margin-bottom:var(--space-5);box-shadow:var(--shadow-md)}
+  .api-info-row{display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-4);padding:var(--space-2) 0;border-bottom:1px solid var(--color-divider)}
+  .api-info-row:last-child{border-bottom:none}
+  .api-info-key{font-size:var(--text-xs);color:var(--color-text-faint);text-transform:uppercase;letter-spacing:.06em;font-weight:600;flex-shrink:0}
+  .api-info-val{font-size:var(--text-sm);font-weight:500;color:var(--color-text);text-align:right}
+  .api-info-title{font-size:var(--text-xs);font-weight:700;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:var(--space-3)}
+
+  /* Fields grid */
+  .fields-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);overflow:hidden;box-shadow:var(--shadow-md);margin-bottom:var(--space-6)}
+  .fields-title{font-size:var(--text-xs);font-weight:700;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.08em;padding:var(--space-4) var(--space-5);border-bottom:1px solid var(--color-divider)}
+  .fields-grid{display:grid;grid-template-columns:1fr 1fr}
+  @media(max-width:540px){.fields-grid{grid-template-columns:1fr}}
+  .field-row{padding:var(--space-3) var(--space-5);border-bottom:1px solid var(--color-divider);display:flex;flex-direction:column;gap:var(--space-1)}
+  .field-row:nth-child(odd){background:var(--color-surface-2)}
+  .field-key{font-size:var(--text-xs);color:var(--color-text-faint);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+  .field-val{font-size:var(--text-sm);font-weight:500;color:var(--color-text);word-break:break-all}
+  .field-desc{font-size:var(--text-xs);color:var(--color-text-muted)}
+  .qty-val{font-size:var(--text-lg);font-weight:700;color:var(--color-primary)}
+
+  .error-msg{background:color-mix(in oklch,var(--color-error) 10%,var(--color-surface));border:1px solid color-mix(in oklch,var(--color-error) 25%,var(--color-border));color:var(--color-error);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);font-size:var(--text-sm);margin-top:var(--space-3);display:none}
+  .error-msg.visible{display:block}
+
+  /* History */
+  .history-section{margin-top:var(--space-10)}
+  .history-title{font-size:var(--text-xs);font-weight:700;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:var(--space-4);display:flex;align-items:center;justify-content:space-between}
+  .btn-clear{font-size:var(--text-xs);color:var(--color-error);font-weight:600;padding:var(--space-1) var(--space-2);border-radius:var(--radius-sm);transition:background var(--transition)}
+  .btn-clear:hover{background:color-mix(in oklch,var(--color-error) 10%,transparent)}
+  .history-list{display:flex;flex-direction:column;gap:var(--space-2)}
+  .history-item{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-3) var(--space-4);display:flex;align-items:center;gap:var(--space-3);cursor:pointer;transition:background var(--transition),border-color var(--transition)}
+  .history-item:hover{background:var(--color-surface-offset);border-color:var(--color-primary)}
+  .history-badge{font-size:1.2em;flex-shrink:0}
+  .history-info{flex:1;min-width:0}
+  .history-part{font-size:var(--text-sm);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .history-meta{font-size:var(--text-xs);color:var(--color-text-muted)}
+  .history-qty{font-size:var(--text-xs);font-weight:700;color:var(--color-primary);background:var(--color-primary-highlight);padding:2px 8px;border-radius:var(--radius-full);flex-shrink:0}
+  .history-empty{font-size:var(--text-sm);color:var(--color-text-faint);text-align:center;padding:var(--space-6)}
+  .footer{margin-top:var(--space-12);padding-top:var(--space-6);border-top:1px solid var(--color-divider);text-align:center;font-size:var(--text-xs);color:var(--color-text-faint)}
 </style>
 </head>
 <body>
 <div class="app">
+
   <header class="header">
     <div class="logo">
-      <svg class="logo-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="LCSC QR Scanner logo">
+      <svg class="logo-icon" viewBox="0 0 36 36" fill="none" aria-label="LCSC QR Scanner logo">
         <rect x="2" y="2" width="14" height="14" rx="2" stroke="currentColor" stroke-width="2.2"/>
         <rect x="5" y="5" width="8" height="8" rx="1" fill="currentColor" opacity="0.35"/>
         <rect x="20" y="2" width="14" height="14" rx="2" stroke="currentColor" stroke-width="2.2"/>
@@ -163,17 +174,45 @@
     </button>
   </header>
 
-  <div class="input-card">
-    <label class="input-label" for="qrInput">Incolla il contenuto del QR Code LCSC</label>
-    <div class="input-row">
-      <input class="qr-input" id="qrInput" type="text"
-        placeholder="{pbn:PICK...,on:GB...,pc:C...,pm:...,qty:20,...}">
-      <button class="btn-parse" onclick="parseQR()">Classifica</button>
-    </div>
-    <div class="hint">Formato atteso: <code>{pbn:...,on:...,pc:C970725,pm:CH224K,qty:20,...}</code></div>
-    <div class="error-msg" id="errorMsg">⚠ Formato non riconosciuto. Assicurati di incollare il testo completo del QR Code LCSC.</div>
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab active" id="tabCode" onclick="switchTab('code')">🔍 Codice C-number</button>
+    <button class="tab" id="tabQR" onclick="switchTab('qr')">📷 Testo QR Code</button>
   </div>
 
+  <!-- Input card -->
+  <div class="input-card">
+
+    <!-- Pane: codice manuale -->
+    <div class="pane active" id="paneCode">
+      <label class="input-label" for="codeInput">Inserisci codice LCSC</label>
+      <div class="input-row">
+        <input class="main-input" id="codeInput" type="text" placeholder="C15840  oppure  15840">
+        <button class="btn-primary" onclick="searchByCode()">Cerca</button>
+      </div>
+      <div class="hint">Es: <code>C15840</code> (relay TH) · <code>C970725</code> · <code>C2040</code> — cerca prima via API, poi in locale</div>
+    </div>
+
+    <!-- Pane: QR raw text -->
+    <div class="pane" id="paneQR">
+      <label class="input-label" for="qrInput">Incolla il testo del QR Code LCSC</label>
+      <div class="input-row">
+        <input class="main-input" id="qrInput" type="text" placeholder="{pbn:PICK...,on:GB...,pc:C...,pm:...,qty:20,...}">
+        <button class="btn-primary" onclick="parseQR()">Classifica</button>
+      </div>
+      <div class="hint">Il lettore Tera D5100-CR incolla automaticamente il testo nel campo</div>
+    </div>
+
+    <div class="error-msg" id="errorMsg">⚠ Formato non riconosciuto.</div>
+
+    <!-- API status indicator -->
+    <div class="api-status hidden" id="apiStatus">
+      <span class="spinner" id="apiSpinner"></span>
+      <span id="apiStatusText">Ricerca API...</span>
+    </div>
+  </div>
+
+  <!-- Result -->
   <div class="result" id="result">
     <div class="category-badge-wrapper">
       <div class="category-badge" id="categoryBadge">
@@ -182,19 +221,27 @@
       </div>
       <div class="category-sub" id="categorySub"></div>
     </div>
-    <div class="fields-card">
+
+    <!-- API extra info (shown when API returns data) -->
+    <div class="api-info" id="apiInfoCard" style="display:none">
+      <div class="api-info-title">📡 Dati da jlcsearch API</div>
+      <div id="apiInfoRows"></div>
+    </div>
+
+    <div class="fields-card" id="fieldsCard" style="display:none">
       <div class="fields-title">Dati dal QR Code</div>
       <div class="fields-grid" id="fieldsGrid"></div>
     </div>
   </div>
 
+  <!-- History -->
   <div class="history-section">
     <div class="history-title">
       <span>Scansioni recenti</span>
       <button class="btn-clear" onclick="clearHistory()">Cancella</button>
     </div>
     <div class="history-list" id="historyList">
-      <div class="history-empty">Nessuna scansione ancora. Incolla un QR Code sopra.</div>
+      <div class="history-empty">Nessuna scansione ancora.</div>
     </div>
   </div>
 
@@ -202,132 +249,319 @@
 </div>
 
 <script>
+// ─── Theme ─────────────────────────────────────────────────────────────────
 (function(){
-  const t = document.querySelector('[data-theme-toggle]');
-  const r = document.documentElement;
-  let d = r.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
-  r.setAttribute('data-theme', d);
-  function updateIcon() {
-    t.innerHTML = d === 'dark'
-      ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
-      : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
-  }
-  updateIcon();
-  t.addEventListener('click', () => { d = d === 'dark' ? 'light' : 'dark'; r.setAttribute('data-theme', d); updateIcon(); });
+  const t=document.querySelector('[data-theme-toggle]'),r=document.documentElement;
+  let d=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+  r.setAttribute('data-theme',d);
+  function upd(){t.innerHTML=d==='dark'?'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>':'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';}
+  upd();
+  t.addEventListener('click',()=>{d=d==='dark'?'light':'dark';r.setAttribute('data-theme',d);upd();});
 })();
 
+// ─── Tab switcher ──────────────────────────────────────────────────────────
+function switchTab(tab) {
+  document.getElementById('tabCode').classList.toggle('active', tab==='code');
+  document.getElementById('tabQR').classList.toggle('active', tab==='qr');
+  document.getElementById('paneCode').classList.toggle('active', tab==='code');
+  document.getElementById('paneQR').classList.toggle('active', tab==='qr');
+  hideError(); hideResult();
+}
+
+// ─── Categories (local fallback) ──────────────────────────────────────────
 const CATEGORIES = [
-  { id: 'ic', name: 'Circuito Integrato', icon: '🔲', sub: 'IC — Microcontrollori, driver, amplificatori, regolatori, convertitori', bg: '--color-blue-highlight', color: '--color-blue', keywords: ['ic','mcu','cpu','dsp','fpga','ldo','buck','boost','adc','dac','uart','usb','phy','pmic','mosfet driver','gate driver','comparator','logic','buffer','pwm','timer','rtc','regulator','converter','controller','driver','monitor','supervisor','charger','pd controller','usbpd','ch224','mp','ht','sn65','sn74','74hc','74ls','cd4','ne555','lm358','lm324','lm317','ams','ap','rt','sg','tl431','tl494','mcp','pic','avr','stm','esp','nrf','w25','at24','m24'], partPrefix: ['U','IC','Y'] },
-  { id: 'resistor', name: 'Resistenza', icon: '▭', sub: 'Resistori — SMD, THT, reti, NTC, potenziometri', bg: '--color-gold-highlight', color: '--color-gold', keywords: ['resistor','ohm','kohm','mohm','ntc','ptc','thermistor','potentiometer','trimmer','varistor','res','rnet','thick film','thin film'], partPrefix: ['R','RN','VR','RT','NTC'] },
-  { id: 'capacitor', name: 'Condensatore', icon: '⊣⊢', sub: 'Capacitori — ceramici, elettrolitici, tantalio, film', bg: '--color-orange-highlight', color: '--color-orange', keywords: ['capacitor','farad','uf','nf','pf','electrolytic','ceramic','mlcc','tantalum','film','supercap'], partPrefix: ['C','CP','CT','CX'] },
-  { id: 'inductor', name: 'Induttore', icon: '〰', sub: 'Induttori, bobine, trasformatori, ferrite bead', bg: '--color-primary-highlight', color: '--color-primary', keywords: ['inductor','henr','mh','uh','nh','ferrite','choke','bead','transformer','coil','power inductor'], partPrefix: ['L','FL','T','TR'] },
-  { id: 'diode', name: 'Diodo', icon: '▷|', sub: 'Diodi — rettificatori, Zener, Schottky, LED, TVS, ESD', bg: '--color-notification-highlight', color: '--color-notification', keywords: ['diode','zener','schottky','tvs','esd','led','rectifier','bridge','ss14','ss34','1n4148','1n4007','bat','bas','bav','esda','pesd','smbj','smaj','p6ke','1sma','1smb','1smc'], partPrefix: ['D','Z','LED','VD'] },
-  { id: 'transistor', name: 'Transistor / MOSFET', icon: '⊳', sub: 'BJT, MOSFET, JFET, IGBT, triac, SCR', bg: '--color-success-highlight', color: '--color-success', keywords: ['transistor','mosfet','bjt','jfet','igbt','triac','scr','npn','pnp','n-channel','p-channel','2n','bc','bd','bf','irf','irfz','si20','si30','nss','mmbt','bc547','bc557','2n2222','2n3906','fqd','nce','aod','aos'], partPrefix: ['Q','TR','VT'] },
-  { id: 'connector', name: 'Connettore', icon: '⬛', sub: 'Connettori — pin, USB, JST, headers, terminali, relè', bg: '--color-purple-highlight', color: '--color-purple', keywords: ['connector','header','socket','jst','ph','xh','zh','gh','sh','usb','hdmi','rj45','bnc','sma','pin','terminal','relay','fpc','ffc','dp','db9','db25','pcie','edge connector'], partPrefix: ['J','CN','P','K','SW','RL'] },
-  { id: 'crystal', name: 'Oscillatore / Cristallo', icon: '◇', sub: 'Cristalli, oscillatori, risonatori ceramici', bg: '--color-primary-highlight', color: '--color-primary', keywords: ['crystal','oscillator','resonator','xtal','mhz','khz','tcxo','vcxo','ocxo','hc-49'], partPrefix: ['X','XTAL','OSC','Y'] },
-  { id: 'switch', name: 'Interruttore / Pulsante', icon: '⦲', sub: 'Switch, pulsanti, encoder rotanti', bg: '--color-warning-highlight', color: '--color-warning', keywords: ['switch','button','pushbutton','dip switch','toggle','slide','tact','encoder','rotary','tactile'], partPrefix: ['SW','BTN','S','ENC'] },
-  { id: 'fuse', name: 'Fusibile / Protezione', icon: '⚡', sub: 'Fusibili, PTC resettabili, varistori', bg: '--color-error-highlight', color: '--color-error', keywords: ['fuse','pptc','resettable','polyfuse','ptc fuse','varistor','mov','protection'], partPrefix: ['F','FS','PF','MOV'] },
-  { id: 'display', name: 'Display / LED', icon: '📺', sub: 'LED, display 7seg, LCD, OLED, moduli luminosi', bg: '--color-gold-highlight', color: '--color-gold', keywords: ['display','7seg','segment','lcd','oled','tft','e-paper','backlight','ws2812','sk6812','apa102','neopixel','rgb led'], partPrefix: ['DS','LCD','OLED','LED'] },
-  { id: 'sensor', name: 'Sensore', icon: '🔍', sub: 'Temperatura, luce, pressione, IMU, prossimità', bg: '--color-blue-highlight', color: '--color-blue', keywords: ['sensor','temperature','humidity','pressure','accelerometer','gyroscope','imu','magnetometer','proximity','ambient light','current sense','hall','infrared','ir','bme','bmp','mpu','lsm','ds18','dht','ina','acs'], partPrefix: [] },
-  { id: 'module', name: 'Modulo / Altro', icon: '📦', sub: 'Moduli, trasformatori, meccanica, materiali', bg: '--color-surface-offset', color: '--color-text-muted', keywords: [], partPrefix: [] }
+  { id:'ic',       name:'Circuito Integrato',    icon:'🔲', sub:'IC — MCU, driver, amplificatori, regolatori, convertitori',    bg:'--color-blue-highlight',         color:'--color-blue',
+    keywords:['ic','mcu','cpu','dsp','fpga','ldo','buck','boost','adc','dac','uart','usb','phy','pmic','gate driver','comparator','logic','buffer','pwm','timer','rtc','regulator','converter','controller','driver','monitor','supervisor','charger','pd controller','usbpd','ch224','sn65','sn74','74hc','74ls','cd4','ne555','lm358','lm324','lm317','tl431','tl494','mcp','pic','avr','stm','esp','nrf','w25','at24','m24'],
+    partPrefix:['U','IC','Y'] },
+  { id:'resistor', name:'Resistenza',            icon:'▭',  sub:'Resistori — SMD, THT, reti, NTC, potenziometri',             bg:'--color-gold-highlight',          color:'--color-gold',
+    keywords:['resistor','ohm','kohm','mohm','ntc','ptc','thermistor','potentiometer','trimmer','varistor','thick film','thin film'],
+    partPrefix:['R','RN','VR','RT','NTC'] },
+  { id:'capacitor',name:'Condensatore',          icon:'⊣⊢', sub:'Capacitori — ceramici, elettrolitici, tantalio, film',        bg:'--color-orange-highlight',        color:'--color-orange',
+    keywords:['capacitor','farad','uf','nf','pf','electrolytic','ceramic','mlcc','tantalum','film','supercap'],
+    partPrefix:['C','CP','CT','CX'] },
+  { id:'inductor', name:'Induttore',             icon:'〰',  sub:'Induttori, bobine, trasformatori, ferrite bead',             bg:'--color-primary-highlight',       color:'--color-primary',
+    keywords:['inductor','henr','mh','uh','nh','ferrite','choke','bead','transformer','coil','power inductor'],
+    partPrefix:['L','FL','T','TR'] },
+  { id:'diode',    name:'Diodo',                 icon:'▷|', sub:'Diodi — rettificatori, Zener, Schottky, TVS, ESD',           bg:'--color-notification-highlight',  color:'--color-notification',
+    keywords:['diode','zener','schottky','tvs','esd','rectifier','bridge','ss14','ss34','1n4148','1n4007','bat','bas','bav','esda','pesd','smbj','smaj','p6ke','1sma','1smb','1smc'],
+    partPrefix:['D','Z','VD'] },
+  { id:'led',      name:'LED',                   icon:'💡', sub:'LED — monocolore, RGB, WS2812, display a 7 segmenti',         bg:'--color-gold-highlight',          color:'--color-gold',
+    keywords:['led','ws2812','sk6812','apa102','neopixel','rgb led','7seg','segment','display'],
+    partPrefix:['LED','DS'] },
+  { id:'transistor',name:'Transistor / MOSFET',  icon:'⊳',  sub:'BJT NPN/PNP, MOSFET N/P-ch, IGBT, triac, SCR',              bg:'--color-success-highlight',       color:'--color-success',
+    keywords:['transistor','mosfet','bjt','jfet','igbt','triac','scr','npn','pnp','n-channel','p-channel','2n','bc','bd','irf','irfz','si20','si30','nss','mmbt','bc547','bc557','2n2222','2n3906','fqd','nce','aod','aos'],
+    partPrefix:['Q','TR','VT'] },
+  { id:'relay',    name:'Relè',                  icon:'⚙️', sub:'Relè elettromeccanici e allo stato solido',                   bg:'--color-purple-highlight',        color:'--color-purple',
+    keywords:['relay','relais','ssr','solid state relay','spdt','dpdt','spst','coil','5v relay','12v relay','hls','songle','omron','g5v','g6k','slr','clr'],
+    partPrefix:['RL','K'] },
+  { id:'connector',name:'Connettore',            icon:'⬛', sub:'Header, JST, USB, terminali, FPC, relè',                     bg:'--color-purple-highlight',        color:'--color-purple',
+    keywords:['connector','header','socket','jst','ph','xh','zh','gh','sh','usb','hdmi','rj45','bnc','sma','terminal','fpc','ffc','dp','db9','db25','pcie','edge connector'],
+    partPrefix:['J','CN','P','K','SW'] },
+  { id:'crystal',  name:'Oscillatore / Cristallo',icon:'◇', sub:'Cristalli, oscillatori, TCXO, risonatori ceramici',          bg:'--color-primary-highlight',       color:'--color-primary',
+    keywords:['crystal','oscillator','resonator','xtal','mhz','khz','tcxo','vcxo','ocxo','hc-49'],
+    partPrefix:['X','XTAL','OSC','Y'] },
+  { id:'switch',   name:'Interruttore / Pulsante',icon:'⚲', sub:'Tact switch, DIP, toggle, encoder rotante',                  bg:'--color-warning-highlight',       color:'--color-warning',
+    keywords:['switch','button','pushbutton','dip switch','toggle','slide','tact','encoder','rotary','tactile'],
+    partPrefix:['SW','BTN','S','ENC'] },
+  { id:'fuse',     name:'Fusibile / Protezione', icon:'⚡', sub:'Fusibili, PTC resettabili, varistori, MOV',                  bg:'--color-error-highlight',         color:'--color-error',
+    keywords:['fuse','pptc','resettable','polyfuse','ptc fuse','varistor','mov','protection'],
+    partPrefix:['F','FS','PF','MOV'] },
+  { id:'sensor',   name:'Sensore',               icon:'🔍', sub:'Temperatura, IMU, pressione, luce, corrente',                bg:'--color-blue-highlight',          color:'--color-blue',
+    keywords:['sensor','temperature','humidity','pressure','accelerometer','gyroscope','imu','magnetometer','proximity','ambient light','current sense','hall','infrared','bme','bmp','mpu','lsm','ds18','dht','ina','acs'],
+    partPrefix:[] },
+  { id:'module',   name:'Modulo / Altro',        icon:'📦', sub:'Moduli, trasformatori, meccanica',                           bg:'--color-surface-offset',          color:'--color-text-muted',
+    keywords:[], partPrefix:[] }
 ];
 
 const FIELD_META = {
-  pbn: { label: 'Picking Batch', desc: 'Numero di prelievo/batch' },
-  on:  { label: 'Order Number', desc: 'Numero ordine LCSC' },
-  pc:  { label: 'Product Code', desc: 'Codice prodotto LCSC (C-number)' },
-  pm:  { label: 'Part Model', desc: 'Modello / Part number' },
-  qty: { label: 'Quantit\u00e0', desc: 'Pezzi nella confezione', highlight: true },
-  mc:  { label: 'Mfr. Code', desc: 'Codice produttore' },
-  cc:  { label: 'Customer Code', desc: 'Codice cliente/categoria' },
-  pdi: { label: 'Product Data ID', desc: 'Identificativo interno LCSC' },
-  hp:  { label: 'HP Code', desc: 'Parametro hardware/hub' },
-  wc:  { label: 'Warehouse', desc: 'Codice magazzino (ZH=Zhongshan)' }
+  pbn:{label:'Picking Batch',desc:'Numero di prelievo/batch'},
+  on: {label:'Order Number', desc:'Numero ordine LCSC'},
+  pc: {label:'Product Code', desc:'Codice prodotto LCSC (C-number)'},
+  pm: {label:'Part Model',   desc:'Modello / Part number'},
+  qty:{label:'Quantità',     desc:'Pezzi nella confezione', highlight:true},
+  mc: {label:'Mfr. Code',    desc:'Codice produttore'},
+  cc: {label:'Customer Code',desc:'Codice cliente/categoria'},
+  pdi:{label:'Product Data ID',desc:'Identificativo interno LCSC'},
+  hp: {label:'HP Code',      desc:'Parametro logistico'},
+  wc: {label:'Warehouse',    desc:'Magazzino (ZH=Zhongshan)'}
 };
 
 let history = [];
 
-function parseQRString(raw) {
-  raw = raw.trim();
-  const inner = raw.replace(/^\{/, '').replace(/\}$/, '');
-  const obj = {};
-  const pairs = inner.split(',');
-  for (const pair of pairs) {
-    const idx = pair.indexOf(':');
-    if (idx < 1) continue;
-    const k = pair.slice(0, idx).trim();
-    const v = pair.slice(idx + 1).trim();
-    obj[k] = v;
-  }
-  return Object.keys(obj).length >= 2 ? obj : null;
+// ─── UI helpers ────────────────────────────────────────────────────────────
+function hideError(){ document.getElementById('errorMsg').classList.remove('visible'); }
+function showError(msg){ const e=document.getElementById('errorMsg'); e.textContent=msg; e.classList.add('visible'); }
+function hideResult(){ document.getElementById('result').classList.remove('visible'); }
+
+function setApiStatus(state, text){
+  const el=document.getElementById('apiStatus');
+  const sp=document.getElementById('apiSpinner');
+  el.className='api-status';
+  if(state==='hidden'){el.classList.add('hidden');return;}
+  el.classList.add(state);
+  sp.style.display = state==='loading' ? 'block' : 'none';
+  document.getElementById('apiStatusText').textContent = text;
 }
 
-function classify(data) {
-  const pm = (data.pm || '').toLowerCase();
-  const pc = (data.pc || '').toLowerCase();
-  const combined = pm + ' ' + pc;
-  for (const cat of CATEGORIES.slice(0, -1)) {
-    for (const kw of cat.keywords) { if (combined.includes(kw)) return cat; }
-    for (const prefix of cat.partPrefix) { if ((data.pm || '').toUpperCase().startsWith(prefix)) return cat; }
+// ─── Local classifier ──────────────────────────────────────────────────────
+function classifyLocal(pm, pc){
+  const combined = (pm+' '+pc).toLowerCase();
+  for(const cat of CATEGORIES.slice(0,-1)){
+    for(const kw of cat.keywords){ if(combined.includes(kw)) return cat; }
+    for(const pfx of cat.partPrefix){ if((pm||'').toUpperCase().startsWith(pfx)) return cat; }
   }
-  return CATEGORIES[CATEGORIES.length - 1];
+  return CATEGORIES[CATEGORIES.length-1];
 }
 
-function renderFields(data) {
-  const grid = document.getElementById('fieldsGrid');
-  grid.innerHTML = '';
-  for (const [k, v] of Object.entries(data)) {
-    const meta = FIELD_META[k] || { label: k.toUpperCase(), desc: '' };
-    const row = document.createElement('div');
-    row.className = 'field-row';
-    const isQty = k === 'qty';
-    row.innerHTML = `<span class="field-key">${meta.label}</span><span class="${isQty ? 'qty-val' : 'field-val'}">${v || '\u2014'}</span>${meta.desc ? `<span class="field-desc">${meta.desc}</span>` : ''}`;
-    grid.appendChild(row);
-  }
+// Map jlcsearch subcategory_name → local category
+function mapApiCategory(subcat, desc){
+  const s = (subcat||'').toLowerCase();
+  const d = (desc||'').toLowerCase();
+  const combined = s+' '+d;
+  if(/relay/.test(combined)) return CATEGORIES.find(c=>c.id==='relay');
+  if(/resistor|resistance/.test(combined)) return CATEGORIES.find(c=>c.id==='resistor');
+  if(/capacitor|capacitance/.test(combined)) return CATEGORIES.find(c=>c.id==='capacitor');
+  if(/inductor|ferrite|choke|bead/.test(combined)) return CATEGORIES.find(c=>c.id==='inductor');
+  if(/led|light emitting/.test(combined)) return CATEGORIES.find(c=>c.id==='led');
+  if(/diode|rectifier|schottky|zener|tvs/.test(combined)) return CATEGORIES.find(c=>c.id==='diode');
+  if(/transistor|mosfet|bjt|igbt|triac/.test(combined)) return CATEGORIES.find(c=>c.id==='transistor');
+  if(/microcontroller|mcu|cpu|dsp/.test(combined)) return CATEGORIES.find(c=>c.id==='ic');
+  if(/regulator|ldo|buck|boost|converter|pmic/.test(combined)) return CATEGORIES.find(c=>c.id==='ic');
+  if(/op.?amp|amplifier|comparator|logic|buffer|gate|driver|ic/.test(combined)) return CATEGORIES.find(c=>c.id==='ic');
+  if(/crystal|oscillator|resonator|tcxo/.test(combined)) return CATEGORIES.find(c=>c.id==='crystal');
+  if(/connector|header|socket|terminal|jst/.test(combined)) return CATEGORIES.find(c=>c.id==='connector');
+  if(/switch|button|pushbutton|tact|encoder/.test(combined)) return CATEGORIES.find(c=>c.id==='switch');
+  if(/fuse|protection|varistor|mov/.test(combined)) return CATEGORIES.find(c=>c.id==='fuse');
+  if(/sensor|temperature|humidity|imu|accelero/.test(combined)) return CATEGORIES.find(c=>c.id==='sensor');
+  if(/display|lcd|oled|7.seg/.test(combined)) return CATEGORIES.find(c=>c.id==='led');
+  return null;
 }
 
-function parseQR() {
-  const raw = document.getElementById('qrInput').value;
-  const errEl = document.getElementById('errorMsg');
-  const resultEl = document.getElementById('result');
-  errEl.classList.remove('visible');
-  resultEl.classList.remove('visible');
-  if (!raw.trim()) { errEl.classList.add('visible'); return; }
-  const data = parseQRString(raw);
-  if (!data) { errEl.classList.add('visible'); return; }
-  const cat = classify(data);
-  const badge = document.getElementById('categoryBadge');
-  badge.style.background = `var(${cat.bg})`;
-  badge.style.color = `var(${cat.color})`;
-  document.getElementById('categoryIcon').textContent = cat.icon;
-  document.getElementById('categoryName').textContent = cat.name;
-  document.getElementById('categorySub').textContent = cat.sub;
-  renderFields(data);
-  resultEl.classList.add('visible');
-  history.unshift({ data, cat, raw });
-  if (history.length > 20) history.pop();
+// ─── Render result ─────────────────────────────────────────────────────────
+function showResult(cat, apiData, qrData){
+  const badge=document.getElementById('categoryBadge');
+  badge.style.background=`var(${cat.bg})`;
+  badge.style.color=`var(${cat.color})`;
+  document.getElementById('categoryIcon').textContent=cat.icon;
+  document.getElementById('categoryName').textContent=cat.name;
+  document.getElementById('categorySub').textContent=cat.sub;
+
+  // API info block
+  const apiCard=document.getElementById('apiInfoCard');
+  if(apiData){
+    apiCard.style.display='block';
+    const rows=document.getElementById('apiInfoRows');
+    rows.innerHTML='';
+    const fields=[
+      ['Part Number', apiData.mfr],
+      ['Descrizione', apiData.description],
+      ['Package',     apiData.package],
+      ['Categoria API', apiData.subcategory_name||apiData.category_name],
+      ['Stock JLCPCB', apiData.stock!=null ? apiData.stock.toLocaleString('it') : null],
+      ['Prezzo (1pz)', apiData.price1!=null ? '$ '+Number(apiData.price1).toFixed(4) : null],
+    ];
+    for(const [k,v] of fields){
+      if(!v && v!==0) continue;
+      const r=document.createElement('div');
+      r.className='api-info-row';
+      r.innerHTML=`<span class="api-info-key">${k}</span><span class="api-info-val">${v}</span>`;
+      rows.appendChild(r);
+    }
+  } else {
+    apiCard.style.display='none';
+  }
+
+  // QR fields block
+  const fieldsCard=document.getElementById('fieldsCard');
+  if(qrData){
+    fieldsCard.style.display='block';
+    const grid=document.getElementById('fieldsGrid');
+    grid.innerHTML='';
+    for(const [k,v] of Object.entries(qrData)){
+      const meta=FIELD_META[k]||{label:k.toUpperCase(),desc:''};
+      const row=document.createElement('div');
+      row.className='field-row';
+      const isQty=k==='qty';
+      row.innerHTML=`<span class="field-key">${meta.label}</span><span class="${isQty?'qty-val':'field-val'}">${v||'—'}</span>${meta.desc?`<span class="field-desc">${meta.desc}</span>`:''}`;
+      grid.appendChild(row);
+    }
+  } else {
+    fieldsCard.style.display='none';
+  }
+
+  document.getElementById('result').classList.add('visible');
+}
+
+function addHistory(icon, part, pc, catName, qty, raw){
+  history.unshift({icon,part,pc,catName,qty,raw});
+  if(history.length>20) history.pop();
   renderHistory();
 }
 
-function renderHistory() {
-  const list = document.getElementById('historyList');
-  if (!history.length) { list.innerHTML = '<div class="history-empty">Nessuna scansione ancora.</div>'; return; }
-  list.innerHTML = '';
-  for (let i = 0; i < history.length; i++) {
-    const { data, cat } = history[i];
-    const item = document.createElement('div');
-    item.className = 'history-item';
-    item.innerHTML = `<span class="history-badge">${cat.icon}</span><div class="history-info"><div class="history-part">${data.pm || data.pc || 'N/D'}</div><div class="history-meta">${cat.name} \u00b7 ${data.pc || ''}</div></div><span class="history-qty">\u00d7${data.qty || '?'}</span>`;
-    const idx = i;
-    item.addEventListener('click', () => { document.getElementById('qrInput').value = history[idx].raw; parseQR(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+function renderHistory(){
+  const list=document.getElementById('historyList');
+  if(!history.length){list.innerHTML='<div class="history-empty">Nessuna scansione ancora.</div>';return;}
+  list.innerHTML='';
+  history.forEach(({icon,part,pc,catName,qty,raw},i)=>{
+    const item=document.createElement('div');
+    item.className='history-item';
+    item.innerHTML=`<span class="history-badge">${icon}</span><div class="history-info"><div class="history-part">${part||pc||'N/D'}</div><div class="history-meta">${catName} · ${pc||''}</div></div><span class="history-qty">×${qty||'?'}</span>`;
+    item.addEventListener('click',()=>{
+      if(raw.startsWith('{')){
+        switchTab('qr');
+        document.getElementById('qrInput').value=raw;
+        setTimeout(parseQR,50);
+      } else {
+        switchTab('code');
+        document.getElementById('codeInput').value=raw;
+        setTimeout(searchByCode,50);
+      }
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
     list.appendChild(item);
-  }
+  });
 }
 
-function clearHistory() { history = []; renderHistory(); }
+function clearHistory(){history=[];renderHistory();}
 
-document.getElementById('qrInput').addEventListener('keydown', e => { if (e.key === 'Enter') parseQR(); });
-document.getElementById('qrInput').addEventListener('paste', () => { setTimeout(parseQR, 50); });
-<\/script>
+// ─── jlcsearch API ─────────────────────────────────────────────────────────
+async function fetchJlcsearch(lcscCode){
+  const num = lcscCode.toUpperCase().replace(/^C/,'');
+  const url = `https://jlcsearch.tscircuit.com/components/list.json?search=C${num}&full=true`;
+  const res = await fetch(url, {signal: AbortSignal.timeout(5000)});
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  const json = await res.json();
+  if(!json.components || !json.components.length) return null;
+  // Find exact match by LCSC number
+  const exact = json.components.find(c => String(c.lcsc) === num);
+  return exact || json.components[0];
+}
+
+// ─── Search by C-number ────────────────────────────────────────────────────
+async function searchByCode(){
+  hideError(); hideResult();
+  const raw = document.getElementById('codeInput').value.trim();
+  if(!raw){showError('⚠ Inserisci un codice LCSC (es. C15840)');return;}
+
+  setApiStatus('loading','Ricerca su jlcsearch API...');
+
+  let apiData = null;
+  try {
+    apiData = await fetchJlcsearch(raw);
+    if(apiData){
+      setApiStatus('ok','✓ Dati da jlcsearch API (JLCPCB database)');
+    } else {
+      setApiStatus('fallback','⚠ Componente non trovato nell\'API — classificazione locale');
+    }
+  } catch(e){
+    setApiStatus('fallback','⚠ API non raggiungibile — classificazione locale');
+  }
+
+  let cat;
+  if(apiData){
+    const mapped = mapApiCategory(apiData.subcategory_name, apiData.description);
+    cat = mapped || classifyLocal(apiData.mfr||'', 'C'+raw.replace(/^C/i,''));
+  } else {
+    cat = classifyLocal('', raw);
+  }
+
+  const num = raw.toUpperCase().replace(/^C/,'');
+  showResult(cat, apiData, null);
+  addHistory(cat.icon, apiData?apiData.mfr:raw, 'C'+num, cat.name, apiData?apiData.stock:null, raw);
+}
+
+// ─── Parse QR raw text ─────────────────────────────────────────────────────
+function parseQRString(raw){
+  const inner = raw.trim().replace(/^\{/,'').replace(/\}$/,'');
+  const obj={};
+  inner.split(',').forEach(pair=>{
+    const idx=pair.indexOf(':');
+    if(idx<1)return;
+    obj[pair.slice(0,idx).trim()]=pair.slice(idx+1).trim();
+  });
+  return Object.keys(obj).length>=2?obj:null;
+}
+
+async function parseQR(){
+  hideError(); hideResult();
+  const raw = document.getElementById('qrInput').value.trim();
+  if(!raw){showError('⚠ Campo vuoto.');return;}
+
+  const data = parseQRString(raw);
+  if(!data){showError('⚠ Formato non riconosciuto. Atteso: {pbn:...,pc:C...,pm:...,qty:...}');return;}
+
+  const pc = data.pc || '';
+
+  setApiStatus('loading','Ricerca su jlcsearch API...');
+
+  let apiData=null;
+  if(pc){
+    try{
+      apiData=await fetchJlcsearch(pc);
+      setApiStatus(apiData?'ok':'fallback', apiData?'✓ Dati da jlcsearch API':'⚠ Non trovato nell\'API — classificazione locale');
+    }catch(e){
+      setApiStatus('fallback','⚠ API offline — classificazione locale');
+    }
+  } else {
+    setApiStatus('fallback','⚠ Nessun pc nel QR — classificazione locale');
+  }
+
+  let cat;
+  if(apiData){
+    const mapped=mapApiCategory(apiData.subcategory_name, apiData.description);
+    cat=mapped||classifyLocal(data.pm||'', pc);
+  } else {
+    cat=classifyLocal(data.pm||'', pc);
+  }
+
+  showResult(cat, apiData, data);
+  addHistory(cat.icon, data.pm||pc, pc, cat.name, data.qty, raw);
+}
+
+// ─── Event listeners ────────────────────────────────────────────────────────
+document.getElementById('codeInput').addEventListener('keydown', e=>{if(e.key==='Enter')searchByCode();});
+document.getElementById('qrInput').addEventListener('keydown', e=>{if(e.key==='Enter')parseQR();});
+document.getElementById('qrInput').addEventListener('paste', ()=>{setTimeout(parseQR,50);});
+</script>
 </body>
 </html>
