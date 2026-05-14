@@ -177,7 +177,7 @@
         <input class="main-input" id="codeInput" type="text" placeholder="C15840  oppure  15840">
         <button class="btn-primary" onclick="searchByCode()">Cerca</button>
       </div>
-      <div class="hint">Es: <code>C15840</code> (relay) · <code>C970725</code> · <code>C99373</code> — classifica tramite API, poi fallback locale</div>
+      <div class="hint">Es: <code>C15840</code> (relay) · <code>C970725</code> · <code>C99373</code> (tantalio)</div>
     </div>
 
     <div class="pane" id="paneQR">
@@ -205,7 +205,7 @@
       <div class="category-sub" id="categorySub"></div>
     </div>
     <div class="api-info" id="apiInfoCard" style="display:none">
-      <div class="api-info-title">📡 Dati da jlcsearch API</div>
+      <div class="api-info-title" id="apiInfoTitle">📡 Dati da API</div>
       <div id="apiInfoRows"></div>
     </div>
     <div class="fields-card" id="fieldsCard" style="display:none">
@@ -250,7 +250,6 @@ function switchTab(tab){
 }
 
 // ─── Categories ────────────────────────────────────────────────────────────
-// LOCAL_KEYWORDS: usate SOLO come fallback quando l'API non risponde
 const CATEGORIES = [
   { id:'relay',     name:'Relè',                   icon:'⚙️',  sub:'Relè elettromeccanici e allo stato solido',
     bg:'--color-purple-highlight', color:'--color-purple',
@@ -258,7 +257,10 @@ const CATEGORIES = [
     pfx:['RL','K','RY'] },
   { id:'capacitor', name:'Condensatore',            icon:'⊣⊢',  sub:'Capacitori — ceramici, elettrolitici, tantalio, film',
     bg:'--color-orange-highlight', color:'--color-orange',
-    kw:['capacitor','farad',' uf',' nf',' pf','electrolytic','ceramic','mlcc','tantalum','polymer cap','film cap','supercap','decoupling cap'],
+    // TAJ/TPS/TCJA/293D/T491/T494/T495 = Kyocera AVX tantalum; EEVF/ECES = Panasonic; GRM/CL = MLCC
+    kw:['capacitor','farad',' uf',' nf',' pf','electrolytic','ceramic','mlcc','tantalum','polymer cap','film cap','supercap','decoupling cap',
+        'tajd','tajb','tajc','taje','tajr','taja','tajv','taj ','t491','t494','t495','293d','tcjb','tcja','tpsd','tpsb','tpsa',
+        'grm','cl10','cl21','cl31','eevf','eces','eeuf','ecap','elco'],
     pfx:['C','CP','CT'] },
   { id:'resistor',  name:'Resistenza',              icon:'▭',   sub:'Resistori — SMD, THT, reti, NTC, potenziometri',
     bg:'--color-gold-highlight', color:'--color-gold',
@@ -279,7 +281,7 @@ const CATEGORIES = [
   { id:'transistor',name:'Transistor / MOSFET',     icon:'⊳',   sub:'BJT NPN/PNP, MOSFET N/P-ch, IGBT, triac, SCR',
     bg:'--color-success-highlight', color:'--color-success',
     kw:['transistor','mosfet','bjt','jfet','igbt','triac','scr','npn','pnp','n-channel','p-channel','2n2222','bc547','bc557','irf','irfz','si20','aod','aos','nce','fqd','mmbt'],
-    pfx:['Q','TR','VT','T'] },
+    pfx:['Q','TR','VT'] },
   { id:'ic',        name:'Circuito Integrato',      icon:'🔲',  sub:'IC — MCU, driver, amplificatori, regolatori, convertitori',
     bg:'--color-blue-highlight', color:'--color-blue',
     kw:['ic','mcu','microcontroller','cpu','dsp','fpga','ldo','buck','boost','adc','dac','op-amp','amplifier','comparator','logic','buffer','gate driver','pwm controller','pmic','charger ic','pd controller','usbpd','ch224','sn65','sn74','74hc','74ls','cd4','ne555','lm358','lm317','tl431','mcp','pic','avr','stm32','esp32','nrf5','w25q','at24','m24'],
@@ -291,11 +293,11 @@ const CATEGORIES = [
   { id:'connector', name:'Connettore',              icon:'⬛',  sub:'Header, JST, USB, terminali, FPC, connettori RF',
     bg:'--color-purple-highlight', color:'--color-purple',
     kw:['connector','header','socket','jst','ph 2','xh 2','zh 1','gh 1','usb type','hdmi','rj45','bnc','sma','terminal block','fpc','ffc','db9','pcie'],
-    pfx:['J','CN','P','K','SW','CON'] },
+    pfx:['J','CN','P','SW','CON'] },
   { id:'switch',    name:'Interruttore / Pulsante', icon:'⚲',   sub:'Tact switch, DIP switch, toggle, encoder rotante',
     bg:'--color-warning-highlight', color:'--color-warning',
     kw:['tact switch','pushbutton','dip switch','toggle switch','slide switch','rotary encoder','tactile'],
-    pfx:['SW','BTN','S','ENC'] },
+    pfx:['SW','BTN','ENC'] },
   { id:'fuse',      name:'Fusibile / Protezione',   icon:'⚡',  sub:'Fusibili, PTC resettabili, varistori MOV',
     bg:'--color-error-highlight', color:'--color-error',
     kw:['fuse','pptc','polyfuse','resettable fuse','ptc fuse','varistor','mov','iec 60127'],
@@ -338,15 +340,14 @@ function setApiStatus(state, text){
 }
 
 // ─── Classification logic ──────────────────────────────────────────────────
-// PRIORITY 1: use API category/subcategory fields (most reliable)
+// PRIORITY 1: map API category/subcategory text → category id
 function mapApiCategory(subcatName, catName, description){
-  const s = ((subcatName||'')+(catName||'')).toLowerCase();
+  const s = ((subcatName||'')+'|'+(catName||'')).toLowerCase();
   const d = (description||'').toLowerCase();
-  // Order matters: more specific first
   if(/relay/.test(s)||/relay/.test(d)) return find('relay');
-  if(/capacitor/.test(s)||/capacitor/.test(d)) return find('capacitor');
+  if(/capacitor|tantalum|electrolytic|mlcc|film cap/.test(s)||/capacitor|tantalum/.test(d)) return find('capacitor');
   if(/resistor/.test(s)||/resistor/.test(d)) return find('resistor');
-  if(/inductor|ferrite bead/.test(s)||/power inductor|ferrite bead/.test(d)) return find('inductor');
+  if(/inductor|ferrite bead/.test(s)||/inductor|ferrite bead/.test(d)) return find('inductor');
   if(/light emitting|led/.test(s)) return find('led');
   if(/diode|tvs|esd|schottky|zener|rectifier/.test(s)||/diode|tvs|schottky|zener/.test(d)) return find('diode');
   if(/transistor|mosfet|bjt|igbt|triac|scr/.test(s)||/transistor|mosfet/.test(d)) return find('transistor');
@@ -360,7 +361,14 @@ function mapApiCategory(subcatName, catName, description){
   return null;
 }
 
-// PRIORITY 2: local keyword match (fallback when API unavailable)
+// PRIORITY 2: map LCSC product detail JSON → category (uses lcsc.com API data)
+function mapLcscCategory(data){
+  const cat = ((data.catalogNodeName||'')+'|'+(data.parentCatalogName||'')).toLowerCase();
+  const desc = ((data.productIntroEn||'')+(data.productModel||'')).toLowerCase();
+  return mapApiCategory(cat, cat, desc);
+}
+
+// PRIORITY 3: local keyword/prefix match on part number (last resort)
 function classifyLocal(pm, pc){
   const combined = ((pm||'')+' '+(pc||'')).toLowerCase();
   for(const cat of CATEGORIES.slice(0,-1)){
@@ -376,7 +384,7 @@ function classifyLocal(pm, pc){
 function find(id){ return CATEGORIES.find(c=>c.id===id)||CATEGORIES[CATEGORIES.length-1]; }
 
 // ─── Render result ─────────────────────────────────────────────────────────
-function showResult(cat, apiData, qrData){
+function showResult(cat, apiData, lcscData, qrData, apiSource){
   const badge=document.getElementById('categoryBadge');
   badge.style.background=`var(${cat.bg})`;
   badge.style.color=`var(${cat.color})`;
@@ -385,10 +393,12 @@ function showResult(cat, apiData, qrData){
   document.getElementById('categorySub').textContent=cat.sub;
 
   const apiCard=document.getElementById('apiInfoCard');
+  const rowsEl=document.getElementById('apiInfoRows');
+  rowsEl.innerHTML='';
+
   if(apiData){
+    document.getElementById('apiInfoTitle').textContent='📡 Dati da jlcsearch API';
     apiCard.style.display='block';
-    const rows=document.getElementById('apiInfoRows');
-    rows.innerHTML='';
     [['Part Number', apiData.mfr],
      ['Descrizione', apiData.description],
      ['Package',     apiData.package],
@@ -400,9 +410,29 @@ function showResult(cat, apiData, qrData){
       const r=document.createElement('div');
       r.className='api-info-row';
       r.innerHTML=`<span class="api-info-key">${k}</span><span class="api-info-val">${v}</span>`;
-      rows.appendChild(r);
+      rowsEl.appendChild(r);
     });
-  } else { apiCard.style.display='none'; }
+  } else if(lcscData){
+    document.getElementById('apiInfoTitle').textContent='🌐 Dati da LCSC API';
+    apiCard.style.display='block';
+    const d=lcscData;
+    [['Part Number',  d.productModel],
+     ['Produttore',   d.brandNameEn],
+     ['Descrizione',  d.productIntroEn],
+     ['Package',      d.encapStandard],
+     ['Categoria',    [d.catalogNodeName, d.parentCatalogName].filter(Boolean).join(' › ')],
+     ['Stock LCSC',   d.stockNumber!=null ? Number(d.stockNumber).toLocaleString('it') : null],
+     ['Prezzo (1pz)', d.usdPrice!=null ? '$ '+Number(d.usdPrice).toFixed(4) : null]
+    ].forEach(([k,v])=>{
+      if(v===undefined||v===null||v==='') return;
+      const r=document.createElement('div');
+      r.className='api-info-row';
+      r.innerHTML=`<span class="api-info-key">${k}</span><span class="api-info-val">${v}</span>`;
+      rowsEl.appendChild(r);
+    });
+  } else {
+    apiCard.style.display='none';
+  }
 
   const fieldsCard=document.getElementById('fieldsCard');
   if(qrData){
@@ -444,7 +474,7 @@ function renderHistory(){
 }
 function clearHistory(){history=[];renderHistory();}
 
-// ─── jlcsearch API ─────────────────────────────────────────────────────────
+// ─── API 1: jlcsearch (JLCPCB catalog — fast, limited coverage) ────────────
 async function fetchJlcsearch(lcscCode){
   const num=lcscCode.toString().toUpperCase().replace(/^C/,'');
   const url=`https://jlcsearch.tscircuit.com/components/list.json?search=C${num}&full=true`;
@@ -455,28 +485,61 @@ async function fetchJlcsearch(lcscCode){
   return list.find(c=>String(c.lcsc)===num)||list[0]||null;
 }
 
+// ─── API 2: LCSC product detail (full catalog) ────────────────────────────
+async function fetchLcscDetail(lcscCode){
+  const num=lcscCode.toString().toUpperCase().replace(/^C/,'');
+  // LCSC public product detail endpoint (no auth required for product lookup)
+  const url=`https://wmsc.lcsc.com/ftps/wm/product/detail?productCode=C${num}`;
+  const res=await fetch(url,{signal:AbortSignal.timeout(6000)});
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  const json=await res.json();
+  // result is under json.result.productDetailUrl or json.result directly
+  const r=json.result||json;
+  if(!r||!r.productModel) return null;
+  return r;
+}
+
 // ─── Search by C-number ────────────────────────────────────────────────────
 async function searchByCode(){
   hideError();hideResult();
   const raw=document.getElementById('codeInput').value.trim();
   if(!raw){showError('⚠ Inserisci un codice LCSC (es. C15840)');return;}
+  const num=raw.toUpperCase().replace(/^C/,'');
+
   setApiStatus('loading','Ricerca su jlcsearch API...');
-  let apiData=null;
+  let apiData=null, lcscData=null;
+
+  // Step 1: try jlcsearch
   try{
     apiData=await fetchJlcsearch(raw);
-    setApiStatus(apiData?'ok':'fallback', apiData?'✓ Dati da jlcsearch API':'⚠ Non trovato nell\'API — classificazione locale');
-  }catch(e){
-    setApiStatus('fallback','⚠ API non raggiungibile — classificazione locale');
+  }catch(e){ /* network error, continue */ }
+
+  if(apiData){
+    setApiStatus('ok','✓ Trovato su jlcsearch (JLCPCB)');
+  } else {
+    // Step 2: try LCSC direct API
+    setApiStatus('loading','Non in JLCPCB — provo LCSC API...');
+    try{
+      lcscData=await fetchLcscDetail(raw);
+      if(lcscData) setApiStatus('ok','✓ Trovato su LCSC API');
+      else setApiStatus('fallback','⚠ Non trovato nelle API — classificazione locale');
+    }catch(e){
+      setApiStatus('fallback','⚠ API offline — classificazione locale');
+    }
   }
+
   let cat;
   if(apiData){
-    cat=mapApiCategory(apiData.subcategory_name, apiData.category_name, apiData.description)||classifyLocal(apiData.mfr||'','C'+raw.replace(/^C/i,''));
+    cat=mapApiCategory(apiData.subcategory_name,apiData.category_name,apiData.description)||classifyLocal(apiData.mfr||'','C'+num);
+  } else if(lcscData){
+    cat=mapLcscCategory(lcscData)||classifyLocal(lcscData.productModel||'','C'+num);
   } else {
     cat=classifyLocal('',raw);
   }
-  const num=raw.toUpperCase().replace(/^C/,'');
-  showResult(cat,apiData,null);
-  addHistory(cat.icon,apiData?apiData.mfr:('C'+num),'C'+num,cat.name,null,raw);
+
+  showResult(cat, apiData, lcscData, null);
+  const partLabel=apiData?apiData.mfr:(lcscData?lcscData.productModel:('C'+num));
+  addHistory(cat.icon,partLabel,'C'+num,cat.name,null,raw);
 }
 
 // ─── Parse QR raw text ─────────────────────────────────────────────────────
@@ -494,26 +557,42 @@ async function parseQR(){
   const data=parseQRString(raw);
   if(!data){showError('⚠ Formato non riconosciuto. Atteso: {pbn:...,pc:C...,pm:...,qty:...}');return;}
   const pc=data.pc||'';
-  setApiStatus('loading','Ricerca su jlcsearch API...');
-  let apiData=null;
+
+  let apiData=null, lcscData=null;
   if(pc){
+    setApiStatus('loading','Ricerca su jlcsearch API...');
     try{
       apiData=await fetchJlcsearch(pc);
-      setApiStatus(apiData?'ok':'fallback',apiData?'✓ Dati da jlcsearch API':'⚠ Non trovato nell\'API — classificazione locale');
-    }catch(e){
-      setApiStatus('fallback','⚠ API offline — classificazione locale');
+    }catch(e){}
+
+    if(apiData){
+      setApiStatus('ok','✓ Trovato su jlcsearch (JLCPCB)');
+    } else {
+      setApiStatus('loading','Non in JLCPCB — provo LCSC API...');
+      try{
+        lcscData=await fetchLcscDetail(pc);
+        if(lcscData) setApiStatus('ok','✓ Trovato su LCSC API');
+        else setApiStatus('fallback','⚠ Non trovato nelle API — classificazione locale');
+      }catch(e){
+        setApiStatus('fallback','⚠ API offline — classificazione locale');
+      }
     }
   } else {
     setApiStatus('fallback','⚠ Nessun pc nel QR — classificazione locale');
   }
+
   let cat;
   if(apiData){
     cat=mapApiCategory(apiData.subcategory_name,apiData.category_name,apiData.description)||classifyLocal(data.pm||'',pc);
+  } else if(lcscData){
+    cat=mapLcscCategory(lcscData)||classifyLocal(data.pm||'',pc);
   } else {
     cat=classifyLocal(data.pm||'',pc);
   }
-  showResult(cat,apiData,data);
-  addHistory(cat.icon,data.pm||pc,pc,cat.name,data.qty,raw);
+
+  showResult(cat, apiData, lcscData, data);
+  const partLabel=apiData?apiData.mfr:(lcscData?lcscData.productModel:(data.pm||pc));
+  addHistory(cat.icon,partLabel,pc,cat.name,data.qty,raw);
 }
 
 // ─── Event listeners ───────────────────────────────────────────────────────
