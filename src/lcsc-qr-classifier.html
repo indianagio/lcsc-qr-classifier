@@ -58,7 +58,9 @@
   :focus-visible{outline:2px solid var(--color-primary);outline-offset:3px;border-radius:var(--radius-sm)}
 
   .app{max-width:760px;margin:0 auto;padding:var(--space-8) var(--space-4)}
-  .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-10)}
+
+  /* ── Header ── */
+  .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-8)}
   .logo{display:flex;align-items:center;gap:var(--space-3)}
   .logo-icon{width:36px;height:36px;color:var(--color-primary);flex-shrink:0}
   .logo-text{font-size:var(--text-lg);font-weight:700;letter-spacing:-0.02em}
@@ -66,23 +68,85 @@
   .theme-toggle{padding:var(--space-2);border-radius:var(--radius-full);color:var(--color-text-muted);transition:color var(--transition),background var(--transition)}
   .theme-toggle:hover{color:var(--color-text);background:var(--color-surface-offset)}
 
-  .tabs{display:flex;gap:var(--space-2);margin-bottom:var(--space-4);background:var(--color-surface-offset);border-radius:var(--radius-lg);padding:var(--space-1)}
-  .tab{flex:1;text-align:center;padding:var(--space-2) var(--space-4);border-radius:calc(var(--radius-lg) - 3px);font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);transition:all var(--transition)}
-  .tab.active{background:var(--color-surface);color:var(--color-text);box-shadow:var(--shadow-md)}
+  /* ── Scanner status pill ── */
+  .scanner-pill{
+    display:flex;align-items:center;gap:var(--space-2);
+    font-size:var(--text-xs);font-weight:600;
+    padding:var(--space-1) var(--space-3);
+    border-radius:var(--radius-full);
+    background:var(--color-success-highlight);
+    color:var(--color-success);
+    margin-bottom:var(--space-5);
+    width:fit-content;
+  }
+  .scanner-dot{
+    width:7px;height:7px;border-radius:50%;
+    background:currentColor;
+    animation:pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
-  .input-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:var(--space-6);box-shadow:var(--shadow-md);margin-bottom:var(--space-6)}
-  .input-label{font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:var(--space-3);display:block}
+  /* ── Main input card ── */
+  .input-card{
+    background:var(--color-surface);
+    border:1px solid var(--color-border);
+    border-radius:var(--radius-xl);
+    padding:var(--space-6);
+    box-shadow:var(--shadow-md);
+    margin-bottom:var(--space-6);
+  }
+  .input-label{
+    font-size:var(--text-sm);font-weight:600;
+    color:var(--color-text-muted);
+    text-transform:uppercase;letter-spacing:.06em;
+    margin-bottom:var(--space-3);display:block;
+  }
   .input-row{display:flex;gap:var(--space-3)}
-  .main-input{flex:1;background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);font-size:var(--text-base);transition:border-color var(--transition),box-shadow var(--transition)}
-  .main-input:focus{outline:none;border-color:var(--color-primary);box-shadow:0 0 0 3px oklch(from var(--color-primary) l c h / 0.15)}
+  .main-input{
+    flex:1;
+    background:var(--color-bg);
+    border:1px solid var(--color-border);
+    border-radius:var(--radius-md);
+    padding:var(--space-3) var(--space-4);
+    font-size:var(--text-base);
+    transition:border-color var(--transition),box-shadow var(--transition);
+  }
+  .main-input:focus{
+    outline:none;
+    border-color:var(--color-primary);
+    box-shadow:0 0 0 3px oklch(from var(--color-primary) l c h / 0.15);
+  }
+  .main-input.scanning{
+    border-color:var(--color-gold);
+    box-shadow:0 0 0 3px oklch(from var(--color-gold) l c h / 0.2);
+  }
   .main-input::placeholder{color:var(--color-text-faint)}
-  .btn-primary{background:var(--color-primary);color:#fff;font-weight:600;padding:var(--space-3) var(--space-6);border-radius:var(--radius-md);font-size:var(--text-sm);transition:background var(--transition),transform var(--transition);white-space:nowrap}
+  .btn-primary{
+    background:var(--color-primary);color:#fff;
+    font-weight:600;padding:var(--space-3) var(--space-6);
+    border-radius:var(--radius-md);font-size:var(--text-sm);
+    transition:background var(--transition),transform var(--transition);
+    white-space:nowrap;
+  }
   .btn-primary:hover{background:var(--color-primary-hover)}
   .btn-primary:active{transform:scale(0.97)}
   .hint{font-size:var(--text-xs);color:var(--color-text-faint);margin-top:var(--space-2)}
   .hint code{font-family:'Courier New',monospace;font-size:.9em;background:var(--color-surface-offset);padding:1px 4px;border-radius:var(--radius-sm);color:var(--color-text-muted)}
-  .pane{display:none}.pane.active{display:block}
 
+  /* ── Mode indicator badge inside input card ── */
+  .mode-badge{
+    display:inline-flex;align-items:center;gap:var(--space-2);
+    font-size:var(--text-xs);font-weight:600;
+    padding:2px var(--space-3);
+    border-radius:var(--radius-full);
+    margin-bottom:var(--space-3);
+    transition:all var(--transition);
+  }
+  .mode-badge.mode-manual{background:var(--color-blue-highlight);color:var(--color-blue)}
+  .mode-badge.mode-qr{background:var(--color-gold-highlight);color:var(--color-gold)}
+  .mode-badge.mode-barcode{background:var(--color-success-highlight);color:var(--color-success)}
+
+  /* ── API status ── */
   .api-status{display:inline-flex;align-items:center;gap:var(--space-2);font-size:var(--text-xs);font-weight:600;padding:var(--space-1) var(--space-3);border-radius:var(--radius-full);margin-top:var(--space-3)}
   .api-status.loading{background:var(--color-gold-highlight);color:var(--color-gold)}
   .api-status.ok{background:var(--color-success-highlight);color:var(--color-success)}
@@ -91,6 +155,7 @@
   @keyframes spin{to{transform:rotate(360deg)}}
   .spinner{width:10px;height:10px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite}
 
+  /* ── Result ── */
   .result{display:none}
   .result.visible{display:block;animation:fadeUp .3s ease}
   @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
@@ -103,7 +168,7 @@
   .api-info-row{display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-4);padding:var(--space-2) 0;border-bottom:1px solid var(--color-divider)}
   .api-info-row:last-child{border-bottom:none}
   .api-info-key{font-size:var(--text-xs);color:var(--color-text-faint);text-transform:uppercase;letter-spacing:.06em;font-weight:600;flex-shrink:0}
-  .api-info-val{font-size:var(--text-sm);font-weight:500;color:var(--color-text);text-align:right}
+  .api-info-val{font-size:var(--text-sm);font-weight:500;color:var(--color-text);text-align:right;word-break:break-word;max-width:55%}
   .api-info-title{font-size:var(--text-xs);font-weight:700;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:var(--space-3)}
 
   .fields-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);overflow:hidden;box-shadow:var(--shadow-md);margin-bottom:var(--space-6)}
@@ -120,6 +185,7 @@
   .error-msg{background:color-mix(in oklch,var(--color-error) 10%,var(--color-surface));border:1px solid color-mix(in oklch,var(--color-error) 25%,var(--color-border));color:var(--color-error);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);font-size:var(--text-sm);margin-top:var(--space-3);display:none}
   .error-msg.visible{display:block}
 
+  /* ── History ── */
   .history-section{margin-top:var(--space-10)}
   .history-title{font-size:var(--text-xs);font-weight:700;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:var(--space-4);display:flex;align-items:center;justify-content:space-between}
   .btn-clear{font-size:var(--text-xs);color:var(--color-error);font-weight:600;padding:var(--space-1) var(--space-2);border-radius:var(--radius-sm);transition:background var(--transition)}
@@ -165,30 +231,26 @@
     </button>
   </header>
 
-  <div class="tabs">
-    <button class="tab active" id="tabCode" onclick="switchTab('code')">🔍 Codice C-number</button>
-    <button class="tab" id="tabQR" onclick="switchTab('qr')">📷 Testo QR Code</button>
+  <!-- Scanner always-on status -->
+  <div class="scanner-pill" id="scannerPill">
+    <span class="scanner-dot"></span>
+    <span id="scannerPillText">Scanner attivo — punta il lettore in qualsiasi momento</span>
   </div>
 
+  <!-- Single unified input card -->
   <div class="input-card">
-    <div class="pane active" id="paneCode">
-      <label class="input-label" for="codeInput">Inserisci codice LCSC</label>
-      <div class="input-row">
-        <input class="main-input" id="codeInput" type="text" placeholder="C15840  oppure  15840">
-        <button class="btn-primary" onclick="searchByCode()">Cerca</button>
-      </div>
-      <div class="hint">Es: <code>C15840</code> (relay) · <code>C970725</code> · <code>C99373</code> (tantalio)</div>
+    <div class="mode-badge mode-manual" id="modeBadge">⌨️ Inserimento manuale</div>
+    <label class="input-label" for="mainInput">Codice LCSC o QR</label>
+    <div class="input-row">
+      <input class="main-input" id="mainInput"
+             type="text"
+             placeholder="C15840 · oppure scansiona il QR con il lettore"
+             autocomplete="off" autocorrect="off" spellcheck="false">
+      <button class="btn-primary" onclick="submitInput()">Cerca</button>
     </div>
-
-    <div class="pane" id="paneQR">
-      <label class="input-label" for="qrInput">Incolla il testo del QR Code LCSC</label>
-      <div class="input-row">
-        <input class="main-input" id="qrInput" type="text" placeholder="{pbn:PICK...,on:GB...,pc:C...,pm:...,qty:20,...}">
-        <button class="btn-primary" onclick="parseQR()">Classifica</button>
-      </div>
-      <div class="hint">Il lettore Tera D5100-CR incolla automaticamente il testo nel campo</div>
+    <div class="hint" id="inputHint">
+      Digita un <code>C-number</code> e premi Invio — oppure spara con il Tera D5100-CR senza cliccare nulla
     </div>
-
     <div class="error-msg" id="errorMsg">⚠ Formato non riconosciuto.</div>
     <div class="api-status hidden" id="apiStatus">
       <span class="spinner" id="apiSpinner"></span>
@@ -196,6 +258,7 @@
     </div>
   </div>
 
+  <!-- Result -->
   <div class="result" id="result">
     <div class="category-badge-wrapper">
       <div class="category-badge" id="categoryBadge">
@@ -214,6 +277,7 @@
     </div>
   </div>
 
+  <!-- History -->
   <div class="history-section">
     <div class="history-title">
       <span>Scansioni recenti</span>
@@ -228,7 +292,9 @@
 </div>
 
 <script>
-// ─── Theme toggle ──────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════
+//  THEME TOGGLE
+// ══════════════════════════════════════════════════════════════
 (function(){
   const t=document.querySelector('[data-theme-toggle]'),r=document.documentElement;
   let d=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
@@ -240,79 +306,56 @@
   t.addEventListener('click',()=>{d=d==='dark'?'light':'dark';r.setAttribute('data-theme',d);upd();});
 })();
 
-// ─── Tab switcher ──────────────────────────────────────────────────────────
-function switchTab(tab){
-  document.getElementById('tabCode').classList.toggle('active',tab==='code');
-  document.getElementById('tabQR').classList.toggle('active',tab==='qr');
-  document.getElementById('paneCode').classList.toggle('active',tab==='code');
-  document.getElementById('paneQR').classList.toggle('active',tab==='qr');
-  hideError();hideResult();
-}
-
-// ─── Categories ────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════
+//  CATEGORIES  (identical to main)
+// ══════════════════════════════════════════════════════════════
 const CATEGORIES = [
-  { id:'relay',     name:'Relè',                   icon:'⚙️',  sub:'Relè elettromeccanici e allo stato solido',
+  { id:'relay',      name:'Relè',                   icon:'⚙️',  sub:'Relè elettromeccanici e allo stato solido',
     bg:'--color-purple-highlight', color:'--color-purple',
-    kw:['relay','relais','ssr','solid state relay','spdt relay','dpdt','songle','omron','g5v','g6k','slr','clr','hls','srd-','jqc','shm','goodsky','nais'],
-    pfx:['RL','K','RY'] },
-  { id:'capacitor', name:'Condensatore',            icon:'⊣⊢',  sub:'Capacitori — ceramici, elettrolitici, tantalio, film',
+    kw:['relay','relais','ssr','solid state relay','spdt relay','dpdt','songle','omron','g5v','g6k','slr','clr','hls','srd-','jqc','shm','goodsky','nais'], pfx:['RL','K','RY'] },
+  { id:'capacitor',  name:'Condensatore',            icon:'⊣⊢',  sub:'Capacitori — ceramici, elettrolitici, tantalio, film',
     bg:'--color-orange-highlight', color:'--color-orange',
-    // TAJ/TPS/TCJA/293D/T491/T494/T495 = Kyocera AVX tantalum; EEVF/ECES = Panasonic; GRM/CL = MLCC
-    kw:['capacitor','farad',' uf',' nf',' pf','electrolytic','ceramic','mlcc','tantalum','polymer cap','film cap','supercap','decoupling cap',
-        'tajd','tajb','tajc','taje','tajr','taja','tajv','taj ','t491','t494','t495','293d','tcjb','tcja','tpsd','tpsb','tpsa',
-        'grm','cl10','cl21','cl31','eevf','eces','eeuf','ecap','elco'],
-    pfx:['C','CP','CT'] },
-  { id:'resistor',  name:'Resistenza',              icon:'▭',   sub:'Resistori — SMD, THT, reti, NTC, potenziometri',
+    kw:['capacitor','farad',' uf',' nf',' pf','electrolytic','ceramic','mlcc','tantalum','polymer cap','film cap','supercap',
+        'tajd','tajb','tajc','taje','tajr','taja','tajv','t491','t494','t495','293d','tcjb','tcja','tpsd','tpsb','tpsa',
+        'grm','cl10','cl21','cl31','eevf','eces','eeuf','ecap','elco'], pfx:['C','CP','CT'] },
+  { id:'resistor',   name:'Resistenza',              icon:'▭',   sub:'Resistori — SMD, THT, reti, NTC, potenziometri',
     bg:'--color-gold-highlight', color:'--color-gold',
-    kw:['resistor','ohm','kohm','mohm','ntc thermistor','ptc resistor','potentiometer','trimmer','thick film','thin film','current sense resistor'],
-    pfx:['R','RN','VR','RT','NTC'] },
-  { id:'transformer', name:'Trasformatore',         icon:'⊕',   sub:'Trasformatori — pulse, LAN/RJ45, audio, di potenza, isolamento',
+    kw:['resistor','ohm','kohm','mohm','ntc thermistor','ptc resistor','potentiometer','trimmer','thick film','thin film','current sense resistor'], pfx:['R','RN','VR','RT','NTC'] },
+  { id:'transformer',name:'Trasformatore',           icon:'⊕',   sub:'Trasformatori — pulse, LAN/RJ45, audio, di potenza, isolamento',
     bg:'--color-primary-highlight', color:'--color-primary',
-    kw:['transformer','pulse transformer','lan transformer','rj45 transformer','audio transformer','isolation transformer','flyback transformer'],
-    pfx:['TR','TX'] },
-  { id:'inductor',  name:'Induttore',               icon:'〰',   sub:'Induttori, bobine, choke, ferrite bead',
+    kw:['transformer','pulse transformer','lan transformer','rj45 transformer','audio transformer','isolation transformer','flyback transformer'], pfx:['TR','TX'] },
+  { id:'inductor',   name:'Induttore',               icon:'〰',   sub:'Induttori, bobine, choke, ferrite bead',
     bg:'--color-primary-highlight', color:'--color-primary',
-    kw:['inductor','power inductor','ferrite bead','choke','bead','coupled inductor',' mh',' uh',' nh'],
-    pfx:['L','FL','FB'] },
-  { id:'diode',     name:'Diodo',                   icon:'▷|',  sub:'Diodi — rettificatori, Zener, Schottky, TVS, ESD',
+    kw:['inductor','power inductor','ferrite bead','choke','bead','coupled inductor',' mh',' uh',' nh'], pfx:['L','FL','FB'] },
+  { id:'diode',      name:'Diodo',                   icon:'▷|',  sub:'Diodi — rettificatori, Zener, Schottky, TVS, ESD',
     bg:'--color-notification-highlight', color:'--color-notification',
-    kw:['diode','zener','schottky','tvs','esd','rectifier','bridge rectifier','ss14','ss34','bat','bas','bav','esda','pesd','smbj','smaj','1n4148','1n4007'],
-    pfx:['D','Z','VD'] },
-  { id:'led',       name:'LED',                     icon:'💡',  sub:'LED monocolore, RGB, WS2812, display a 7 segmenti, OLED',
+    kw:['diode','zener','schottky','tvs','esd','rectifier','bridge rectifier','ss14','ss34','bat','bas','bav','esda','pesd','smbj','smaj','1n4148','1n4007'], pfx:['D','Z','VD'] },
+  { id:'led',        name:'LED',                     icon:'💡',  sub:'LED monocolore, RGB, WS2812, display a 7 segmenti, OLED',
     bg:'--color-gold-highlight', color:'--color-gold',
-    kw:['led','ws2812','sk6812','apa102','neopixel','rgb led','7-segment','seven segment','oled','lcd display','backlight'],
-    pfx:['LED','DS','LD'] },
-  { id:'transistor',name:'Transistor / MOSFET',     icon:'⊳',   sub:'BJT NPN/PNP, MOSFET N/P-ch, IGBT, triac, SCR',
+    kw:['led','ws2812','sk6812','apa102','neopixel','rgb led','7-segment','seven segment','oled','lcd display','backlight'], pfx:['LED','DS','LD'] },
+  { id:'transistor', name:'Transistor / MOSFET',     icon:'⊳',   sub:'BJT NPN/PNP, MOSFET N/P-ch, IGBT, triac, SCR',
     bg:'--color-success-highlight', color:'--color-success',
-    kw:['transistor','mosfet','bjt','jfet','igbt','triac','scr','npn','pnp','n-channel','p-channel','2n2222','bc547','bc557','irf','irfz','si20','aod','aos','nce','fqd','mmbt'],
-    pfx:['Q','TR','VT'] },
-  { id:'ic',        name:'Circuito Integrato',      icon:'🔲',  sub:'IC — MCU, driver, amplificatori, regolatori, convertitori',
+    kw:['transistor','mosfet','bjt','jfet','igbt','triac','scr','npn','pnp','n-channel','p-channel','2n2222','bc547','bc557','irf','irfz','si20','aod','aos','nce','fqd','mmbt'], pfx:['Q','TR','VT'] },
+  { id:'ic',         name:'Circuito Integrato',      icon:'🔲',  sub:'IC — MCU, driver, amplificatori, regolatori, convertitori',
     bg:'--color-blue-highlight', color:'--color-blue',
-    kw:['ic','mcu','microcontroller','cpu','dsp','fpga','ldo','buck','boost','adc','dac','op-amp','amplifier','comparator','logic','buffer','gate driver','pwm controller','pmic','charger ic','pd controller','usbpd','ch224','sn65','sn74','74hc','74ls','cd4','ne555','lm358','lm317','tl431','mcp','pic','avr','stm32','esp32','nrf5','w25q','at24','m24'],
-    pfx:['U','IC','Y','HA','BA','NE','TL','LM','MC','AT','PIC','STM'] },
-  { id:'crystal',   name:'Oscillatore / Cristallo', icon:'◇',   sub:'Cristalli, oscillatori TCXO/VCXO, risonatori ceramici',
+    kw:['ic','mcu','microcontroller','cpu','dsp','fpga','ldo','buck','boost','adc','dac','op-amp','amplifier','comparator','logic','buffer','gate driver','pwm controller','pmic','charger ic','pd controller','usbpd','ch224','sn65','sn74','74hc','74ls','cd4','ne555','lm358','lm317','tl431','mcp','pic','avr','stm32','esp32','nrf5','w25q','at24','m24'], pfx:['U','IC','Y','HA','BA','NE','TL','LM','MC','AT','PIC','STM'] },
+  { id:'crystal',    name:'Oscillatore / Cristallo', icon:'◇',   sub:'Cristalli, oscillatori TCXO/VCXO, risonatori ceramici',
     bg:'--color-primary-highlight', color:'--color-primary',
-    kw:['crystal','oscillator','resonator','xtal','tcxo','vcxo','ocxo','hc-49','hc-49s','32.768'],
-    pfx:['X','XTAL','OSC','Y'] },
-  { id:'connector', name:'Connettore',              icon:'⬛',  sub:'Header, JST, USB, terminali, FPC, connettori RF',
+    kw:['crystal','oscillator','resonator','xtal','tcxo','vcxo','ocxo','hc-49','hc-49s','32.768'], pfx:['X','XTAL','OSC','Y'] },
+  { id:'connector',  name:'Connettore',              icon:'⬛',  sub:'Header, JST, USB, terminali, FPC, connettori RF',
     bg:'--color-purple-highlight', color:'--color-purple',
-    kw:['connector','header','socket','jst','ph 2','xh 2','zh 1','gh 1','usb type','hdmi','rj45','bnc','sma','terminal block','fpc','ffc','db9','pcie'],
-    pfx:['J','CN','P','SW','CON'] },
-  { id:'switch',    name:'Interruttore / Pulsante', icon:'⚲',   sub:'Tact switch, DIP switch, toggle, encoder rotante',
+    kw:['connector','header','socket','jst','ph 2','xh 2','zh 1','gh 1','usb type','hdmi','rj45','bnc','sma','terminal block','fpc','ffc','db9','pcie'], pfx:['J','CN','P','SW','CON'] },
+  { id:'switch',     name:'Interruttore / Pulsante', icon:'⚲',   sub:'Tact switch, DIP switch, toggle, encoder rotante',
     bg:'--color-warning-highlight', color:'--color-warning',
-    kw:['tact switch','pushbutton','dip switch','toggle switch','slide switch','rotary encoder','tactile'],
-    pfx:['SW','BTN','ENC'] },
-  { id:'fuse',      name:'Fusibile / Protezione',   icon:'⚡',  sub:'Fusibili, PTC resettabili, varistori MOV',
+    kw:['tact switch','pushbutton','dip switch','toggle switch','slide switch','rotary encoder','tactile'], pfx:['SW','BTN','ENC'] },
+  { id:'fuse',       name:'Fusibile / Protezione',   icon:'⚡',  sub:'Fusibili, PTC resettabili, varistori MOV',
     bg:'--color-error-highlight', color:'--color-error',
-    kw:['fuse','pptc','polyfuse','resettable fuse','ptc fuse','varistor','mov','iec 60127'],
-    pfx:['F','FS','PF','MOV'] },
-  { id:'sensor',    name:'Sensore',                 icon:'🔍',  sub:'Temperatura, IMU, pressione, luce, corrente',
+    kw:['fuse','pptc','polyfuse','resettable fuse','ptc fuse','varistor','mov','iec 60127'], pfx:['F','FS','PF','MOV'] },
+  { id:'sensor',     name:'Sensore',                 icon:'🔍',  sub:'Temperatura, IMU, pressione, luce, corrente',
     bg:'--color-blue-highlight', color:'--color-blue',
-    kw:['sensor','temperature sensor','humidity','pressure sensor','accelerometer','gyroscope','imu','magnetometer','ambient light','current sensor','hall effect','infrared sensor','bme280','bmp280','mpu6050','lsm','ds18','dht','ina219','acs712'],
-    pfx:[] },
-  { id:'module',    name:'Modulo / Altro',           icon:'📦',  sub:'Moduli completi, meccanica, altro',
-    bg:'--color-surface-offset', color:'--color-text-muted',
-    kw:[], pfx:[] }
+    kw:['sensor','temperature sensor','humidity','pressure sensor','accelerometer','gyroscope','imu','magnetometer','ambient light','current sensor','hall effect','infrared sensor','bme280','bmp280','mpu6050','lsm','ds18','dht','ina219','acs712'], pfx:[] },
+  { id:'module',     name:'Modulo / Altro',           icon:'📦',  sub:'Moduli completi, meccanica, altro',
+    bg:'--color-surface-offset', color:'--color-text-muted', kw:[], pfx:[] }
 ];
 
 const FIELD_META = {
@@ -320,7 +363,7 @@ const FIELD_META = {
   on: {label:'Order Number', desc:'Numero ordine LCSC'},
   pc: {label:'Product Code', desc:'Codice prodotto LCSC (C-number)'},
   pm: {label:'Part Model',   desc:'Modello / Part number'},
-  qty:{label:'Quantità',     desc:'Pezzi nella confezione', highlight:true},
+  qty:{label:'Quantità',     desc:'Pezzi nella confezione'},
   mc: {label:'Mfr. Code',    desc:'Codice produttore'},
   cc: {label:'Customer Code',desc:'Codice cliente/categoria'},
   pdi:{label:'Product Data ID',desc:'Identificativo interno LCSC'},
@@ -330,7 +373,133 @@ const FIELD_META = {
 
 let history = [];
 
-// ─── UI helpers ────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════
+//  GLOBAL QR INTERCEPT
+//  The Tera D5100-CR acts as a USB HID keyboard: it types the
+//  scanned string at ~20-30 chars/ms and ends with Enter (0x0D).
+//  Strategy:
+//    1. Listen for keydown events on the whole document.
+//    2. If a character arrives and the active element is NOT the
+//       manual C-number input, redirect it into a hidden buffer.
+//    3. After a configurable timeout (50 ms) with no new chars,
+//       treat the buffer as a complete scan and route it.
+//    4. If it looks like a QR payload ({...}), parse and classify.
+//       If it looks like a C-number, search by code.
+//    5. Clear the buffer and reset.
+// ══════════════════════════════════════════════════════════════
+const SCAN_TIMEOUT_MS = 80;   // ms idle after last char → flush
+const MIN_SCAN_LEN    = 4;    // minimum chars to consider a scan
+
+let scanBuffer  = '';
+let scanTimer   = null;
+let scanning    = false;
+
+function isScannerChar(e){
+  // Printable char, not a modifier-only key
+  return e.key && e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey;
+}
+
+function startScan(){
+  scanning = true;
+  const inp = document.getElementById('mainInput');
+  inp.classList.add('scanning');
+  setModeBadge('qr');
+}
+
+function flushScan(){
+  scanning = false;
+  const inp = document.getElementById('mainInput');
+  inp.classList.remove('scanning');
+  const raw = scanBuffer.trim();
+  scanBuffer = '';
+  if(raw.length < MIN_SCAN_LEN) { setModeBadge('manual'); return; }
+  // Show what was scanned in the input field
+  inp.value = raw;
+  routeInput(raw);
+}
+
+document.addEventListener('keydown', function(e){
+  const active = document.activeElement;
+  const mainInput = document.getElementById('mainInput');
+
+  // If user is typing manually in the main input, let it be
+  if(active === mainInput) return;
+
+  // Enter key → flush immediately if we have a buffer
+  if(e.key === 'Enter'){
+    if(scanBuffer.length >= MIN_SCAN_LEN){
+      clearTimeout(scanTimer);
+      flushScan();
+      e.preventDefault();
+    }
+    return;
+  }
+
+  // Printable char → intercept into buffer
+  if(isScannerChar(e)){
+    if(!scanning) startScan();
+    scanBuffer += e.key;
+    clearTimeout(scanTimer);
+    scanTimer = setTimeout(flushScan, SCAN_TIMEOUT_MS);
+    e.preventDefault(); // prevent char from landing in other inputs/browser bar
+  }
+});
+
+// Manual input: Enter key or button
+const mainInputEl = document.getElementById('mainInput');
+mainInputEl.addEventListener('keydown', e => {
+  if(e.key === 'Enter') submitInput();
+});
+mainInputEl.addEventListener('input', () => {
+  setModeBadge('manual');
+});
+// Auto-focus on page load so keyboard typing is always captured
+mainInputEl.focus();
+
+// ══════════════════════════════════════════════════════════════
+//  INPUT ROUTING
+// ══════════════════════════════════════════════════════════════
+function submitInput(){
+  const raw = document.getElementById('mainInput').value.trim();
+  if(!raw){ showError('⚠ Campo vuoto.'); return; }
+  routeInput(raw);
+}
+
+function routeInput(raw){
+  hideError(); hideResult();
+  if(raw.startsWith('{') || raw.includes(',pc:') || raw.includes('pbn:')){
+    // QR payload format
+    setModeBadge('qr');
+    handleQRPayload(raw);
+  } else {
+    // C-number or plain number
+    setModeBadge('barcode');
+    handleCNumber(raw);
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+//  MODE BADGE
+// ══════════════════════════════════════════════════════════════
+function setModeBadge(mode){
+  const b = document.getElementById('modeBadge');
+  const h = document.getElementById('inputHint');
+  b.className = 'mode-badge mode-' + mode;
+  if(mode === 'manual'){
+    b.textContent = '⌨️ Inserimento manuale';
+    h.innerHTML = 'Digita un <code>C-number</code> e premi Invio — oppure spara con il Tera D5100-CR senza cliccare nulla';
+  } else if(mode === 'qr'){
+    b.textContent = '📷 QR Code rilevato';
+    h.innerHTML = 'Payload LCSC intercettato automaticamente dallo scanner';
+  } else {
+    b.textContent = '⚡ Barcode rilevato';
+    h.innerHTML = 'Codice scansionato automaticamente dal lettore';
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+//  UI HELPERS
+// ══════════════════════════════════════════════════════════════
 function hideError(){ document.getElementById('errorMsg').classList.remove('visible'); }
 function showError(msg){ const e=document.getElementById('errorMsg'); e.textContent=msg; e.classList.add('visible'); }
 function hideResult(){ document.getElementById('result').classList.remove('visible'); }
@@ -343,149 +512,67 @@ function setApiStatus(state, text){
   document.getElementById('apiStatusText').textContent=text;
 }
 
-// ─── Classification logic ──────────────────────────────────────────────────
-// Every LCSC component carries `parentCatalogName` (top) and `catalogName` (sub).
-// The classifier is a deterministic lookup over `parentCatalogName` → our 14
-// macro-categories. The map covers all 103 distinct lowercase tops returned by
-// jlcsearch/LCSC. For the handful of tops that bundle multiple device families
-// (e.g. "Inductors, Coils, Chokes" contains both inductors *and* transformers),
-// the special value `__name` triggers a sub-level disambiguation rule.
-//
-// Generic keyword detection is used **only** when the top is unknown to the map
-// (i.e. LCSC introduces a new category) — never as a per-code workaround.
+// ══════════════════════════════════════════════════════════════
+//  CLASSIFICATION  (LCSC_TOP_MAP — unchanged from main)
+// ══════════════════════════════════════════════════════════════
 const LCSC_TOP_MAP = {
-  // ── Passives ──
-  'capacitors':                                          'capacitor',
-  'resistors':                                           'resistor',
-  'filters':                                             'inductor',
-  'filters/emi optimization':                            'inductor',
-  'bead/filter/emi optimization':                        'inductor',
-  'inductors & chokes & transformers':                   '__inductor_xfmr_split',
-  'inductors, coils, chokes':                            '__inductor_xfmr_split',
-  'inductors/coils/transformers':                        '__inductor_xfmr_split',
-  'crystals':                                            'crystal',
-  'crystals, oscillators, resonators':                   'crystal',
-  'crystals/oscillators/resonators':                     'crystal',
-  'crystal oscillator/oscillator/resonator':             'crystal',
-  'resonators/oscillators':                              'crystal',
-  // ── Discretes ──
-  'diodes':                                              'diode',
-  'silicon carbide (sic) devices':                       '__diode_or_transistor',
-  'transistors':                                         'transistor',
-  'transistors/thyristors':                              'transistor',
-  'triode/mos tube/transistor':                          'transistor',
-  'gallium nitride (gan) devices':                       'transistor',
-  // ── Opto / display ──
-  'optoelectronics':                                     '__led_or_ic',
-  'optocouplers & leds & infrared':                      '__led_or_ic',
-  'optocoupler/led/digital tube/photoelectric device':   '__led_or_ic',
-  'photoelectric devices':                               '__led_or_ic',
-  'led/photoelectric devices':                           'led',
-  'display screen':                                      'led',
-  'displays':                                            'led',
-  'optocoupler':                                         'ic',
-  'optocouplers/photocouplers':                          'ic',
-  'optoisolators':                                       'ic',
-  // ── ICs (every IC-family top maps here) ──
-  'amplifiers':                                          'ic',
-  'amplifiers/comparators':                              'ic',
-  'operational amplifier/comparator':                    'ic',
-  'analog ics':                                          'ic',
-  'logic':                                               'ic',
-  'logic ics':                                           'ic',
-  'memory':                                              'ic',
-  'embedded processors & controllers':                   'ic',
-  'single chip microcomputer/microcontroller':           'ic',
-  'embedded peripheral ics':                             'ic',
-  'interface':                                           'ic',
-  'interface ics':                                       'ic',
-  'communication interface chip':                        'ic',
-  'communication interface chip/uart/485/232':           'ic',
-  'driver ics':                                          'ic',
-  'motor driver ics':                                    'ic',
-  'led drivers':                                         'ic',
-  'display modules / led drivers / display drivers':     'ic',
-  'nixie tube driver/led driver':                        'ic',
-  'power management':                                    'ic',
-  'power management (pmic)':                             'ic',
-  'power management ics':                                'ic',
-  'power supply chip':                                   'ic',
-  'isolators':                                           'ic',
-  'signal isolation devices':                            'ic',
-  'data acquisition':                                    'ic',
-  'data converters':                                     'ic',
-  'adc/dac/data conversion':                             'ic',
-  'clock and timing':                                    'ic',
-  'clock/timing':                                        'ic',
-  'rtc/clock chip':                                      'ic',
-  'rf & radio':                                          '__rf_split',
-  'rf and wireless':                                     '__rf_split',
-  'radio frequency chip/antenna':                        '__rf_split',
-  // ── Electromechanical ──
-  'relays':                                              'relay',
-  'pushbutton switches & relays':                        '__switch_relay_split',
-  'switches':                                            'switch',
-  'key/switch':                                          'switch',
-  'connectors':                                          'connector',
-  'electromechanical devices & components':              'connector',
-  'terminal':                                            'connector',
-  'wires and cables':                                    'connector',
-  'wire/cable/datacable':                                'connector',
-  // ── Protection ──
-  'fuses':                                               'fuse',
-  'circuit protection':                                  'fuse',
-  'tvs/fuse/board level protection':                     'fuse',
-  // ── Sensors ──
-  'sensors':                                             'sensor',
-  'magnetic sensors':                                    'sensor',
-  // ── Modules / accessories / other ──
-  'audio components/vibration motors':                   'module',
-  'audio products / vibration motors':                   'module',
-  'audio products/micromotors':                          'module',
-  'audio products/motors':                               'module',
-  'buzzers & speakers & microphones':                    'module',
-  'battery products':                                    'module',
-  'hardware fasteners':                                  'module',
-  'hardware fasteners/seals':                            'module',
-  'hardware/fasteners/sealing':                          'module',
-  'hardwares/solders/accessories/batteries':             'module',
-  'solders / accessories / batteries':                   'module',
-  'consumables':                                         'module',
-  'consumables and auxiliary materials':                 'module',
-  'development boards & tools':                          'module',
-  'educational kits':                                    'module',
-  'electronic tools/instruments/consumables':            'module',
-  'functional modules':                                  'module',
-  'industrial control electrical':                       'module',
-  'instrumentation/meter':                               'module',
-  'iot/communication modules':                           'module',
-  'power modules':                                       'module',
-  'global sourcing parts':                               'module',
-  'old batch':                                           'module',
-  'other':                                               'module',
-  'others':                                              'module',
-  'test':                                                'module'
+  'capacitors':'capacitor','resistors':'resistor',
+  'filters':'inductor','filters/emi optimization':'inductor','bead/filter/emi optimization':'inductor',
+  'inductors & chokes & transformers':'__inductor_xfmr_split','inductors, coils, chokes':'__inductor_xfmr_split',
+  'inductors/coils/transformers':'__inductor_xfmr_split',
+  'crystals':'crystal','crystals, oscillators, resonators':'crystal','crystals/oscillators/resonators':'crystal',
+  'crystal oscillator/oscillator/resonator':'crystal','resonators/oscillators':'crystal',
+  'diodes':'diode','silicon carbide (sic) devices':'__diode_or_transistor',
+  'transistors':'transistor','transistors/thyristors':'transistor','triode/mos tube/transistor':'transistor',
+  'gallium nitride (gan) devices':'transistor',
+  'optoelectronics':'__led_or_ic','optocouplers & leds & infrared':'__led_or_ic',
+  'optocoupler/led/digital tube/photoelectric device':'__led_or_ic','photoelectric devices':'__led_or_ic',
+  'led/photoelectric devices':'led','display screen':'led','displays':'led',
+  'optocoupler':'ic','optocouplers/photocouplers':'ic','optoisolators':'ic',
+  'amplifiers':'ic','amplifiers/comparators':'ic','operational amplifier/comparator':'ic',
+  'analog ics':'ic','logic':'ic','logic ics':'ic','memory':'ic',
+  'embedded processors & controllers':'ic','single chip microcomputer/microcontroller':'ic',
+  'embedded peripheral ics':'ic','interface':'ic','interface ics':'ic',
+  'communication interface chip':'ic','communication interface chip/uart/485/232':'ic',
+  'driver ics':'ic','motor driver ics':'ic','led drivers':'ic',
+  'display modules / led drivers / display drivers':'ic','nixie tube driver/led driver':'ic',
+  'power management':'ic','power management (pmic)':'ic','power management ics':'ic','power supply chip':'ic',
+  'isolators':'ic','signal isolation devices':'ic','data acquisition':'ic','data converters':'ic',
+  'adc/dac/data conversion':'ic','clock and timing':'ic','clock/timing':'ic','rtc/clock chip':'ic',
+  'rf & radio':'__rf_split','rf and wireless':'__rf_split','radio frequency chip/antenna':'__rf_split',
+  'relays':'relay','pushbutton switches & relays':'__switch_relay_split',
+  'switches':'switch','key/switch':'switch',
+  'connectors':'connector','electromechanical devices & components':'connector',
+  'terminal':'connector','wires and cables':'connector','wire/cable/datacable':'connector',
+  'fuses':'fuse','circuit protection':'fuse','tvs/fuse/board level protection':'fuse',
+  'sensors':'sensor','magnetic sensors':'sensor',
+  'audio components/vibration motors':'module','audio products / vibration motors':'module',
+  'audio products/micromotors':'module','audio products/motors':'module',
+  'buzzers & speakers & microphones':'module','battery products':'module',
+  'hardware fasteners':'module','hardware fasteners/seals':'module',
+  'hardware/fasteners/sealing':'module','hardwares/solders/accessories/batteries':'module',
+  'solders / accessories / batteries':'module','consumables':'module',
+  'consumables and auxiliary materials':'module','development boards & tools':'module',
+  'educational kits':'module','electronic tools/instruments/consumables':'module',
+  'functional modules':'module','industrial control electrical':'module',
+  'instrumentation/meter':'module','iot/communication modules':'module',
+  'power modules':'module','global sourcing parts':'module',
+  'old batch':'module','other':'module','others':'module','test':'module'
 };
 
-// Sub-level disambiguation for tops that bundle multiple device families.
-// Inputs are already lowercased.
 function classifySub(rule, sub){
   switch(rule){
     case '__inductor_xfmr_split':
-      // Inductors-&-Transformers tops: sub names the actual device class.
-      if(/accessor/.test(sub))    return 'module';
+      if(/accessor/.test(sub)) return 'module';
       if(/transformer/.test(sub)) return 'transformer';
       return 'inductor';
     case '__diode_or_transistor':
-      // SiC devices: mostly diodes, but GaN/SiC HEMT/MOSFET also live here.
       if(/transistor|hemt|mosfet/.test(sub)) return 'transistor';
       return 'diode';
     case '__led_or_ic':
-      // Optoelectronics tops mix LEDs (passive emitters) with opto-ICs.
       if(/optocoupler|opto.?coupler|photocoupler|digital isolator|signal isolator|gate drive opto/.test(sub)) return 'ic';
       return 'led';
     case '__rf_split':
-      // RF tops contain antennas (passive) and RF chips (ICs).
       if(/antenna/.test(sub)) return 'connector';
       return 'ic';
     case '__switch_relay_split':
@@ -499,17 +586,11 @@ function mapApiCategory(subcatName, catName, description){
   const sub  = (subcatName  || '').toLowerCase().trim();
   const top  = (catName     || '').toLowerCase().trim();
   const desc = (description || '').toLowerCase();
-
-  // ─── PRIMARY: deterministic LCSC catalog lookup ───
   const direct = LCSC_TOP_MAP[top];
   if(direct){
     const id = direct.startsWith('__') ? classifySub(direct, sub) : direct;
     if(id) return find(id);
   }
-
-  // ─── FALLBACK: generic keyword detection on unknown tops ───
-  // Reached only when LCSC introduces a new top-cat not yet in LCSC_TOP_MAP.
-  // Uses standard component-type terms only — no per-code exceptions.
   const topN = top.replace(/[\/,&]/g,' ').replace(/\s+/g,' ').trim();
   if(/transformer/.test(sub) && !/accessor/.test(sub))          return find('transformer');
   if(/optocoupler|digital isolator/.test(sub))                  return find('ic');
@@ -527,21 +608,16 @@ function mapApiCategory(subcatName, catName, description){
   if(/\bswitches?\b/.test(topN))                                return find('switch');
   if(/\bconnectors?\b|terminal|wire|cable/.test(topN))          return find('connector');
   if(/\bics?\b|integrated circuit|amplifier|microcontroller|memory|interface|clock|timing|power management|isolator|driver/.test(topN)) return find('ic');
-
-  // ─── DESCRIPTION fallback: only reached when top + sub are both absent ───
-  if(/transformer/.test(desc))                                  return find('transformer');
-  if(/capacitor|tantalum/.test(desc))                           return find('capacitor');
-  if(/resistor|\bohm/.test(desc))                               return find('resistor');
-  if(/inductor|ferrite bead/.test(desc))                        return find('inductor');
-  if(/diode|zener|schottky/.test(desc))                         return find('diode');
-  if(/transistor|mosfet/.test(desc))                            return find('transistor');
-  if(/\boscillator\b|microcontroller/.test(desc))               return find('ic');
-
+  if(/transformer/.test(desc))  return find('transformer');
+  if(/capacitor|tantalum/.test(desc)) return find('capacitor');
+  if(/resistor|\bohm/.test(desc)) return find('resistor');
+  if(/inductor|ferrite bead/.test(desc)) return find('inductor');
+  if(/diode|zener|schottky/.test(desc)) return find('diode');
+  if(/transistor|mosfet/.test(desc)) return find('transistor');
+  if(/\boscillator\b|microcontroller/.test(desc)) return find('ic');
   return null;
 }
 
-// PRIORITY 2: map LCSC product detail JSON → category (uses lcsc.com API data).
-// Pass subcategory and parent separately so mapApiCategory can apply position-aware rules.
 function mapLcscCategory(data){
   const sub  = data.catalogName       || data.wmCatalogNameEn || '';
   const top  = data.parentCatalogName || '';
@@ -549,7 +625,6 @@ function mapLcscCategory(data){
   return mapApiCategory(sub, top, desc);
 }
 
-// PRIORITY 3: local keyword/prefix match on part number (last resort)
 function classifyLocal(pm, pc){
   const combined = ((pm||'')+' '+(pc||'')).toLowerCase();
   for(const cat of CATEGORIES.slice(0,-1)){
@@ -564,8 +639,39 @@ function classifyLocal(pm, pc){
 
 function find(id){ return CATEGORIES.find(c=>c.id===id)||CATEGORIES[CATEGORIES.length-1]; }
 
-// ─── Render result ─────────────────────────────────────────────────────────
-function showResult(cat, apiData, lcscData, qrData, apiSource){
+// ══════════════════════════════════════════════════════════════
+//  API CALLS
+// ══════════════════════════════════════════════════════════════
+async function fetchJlcsearch(lcscCode){
+  const num=lcscCode.toString().toUpperCase().replace(/^C/,'');
+  const url=`https://jlcsearch.tscircuit.com/components/list.json?search=C${num}&full=true`;
+  const res=await fetch(url,{signal:AbortSignal.timeout(5000)});
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  const json=await res.json();
+  const list=json.components||[];
+  const c=list.find(x=>String(x.lcsc)===num)||list[0]||null;
+  if(c && typeof c.price==='string'){
+    try{ const lad=JSON.parse(c.price); if(Array.isArray(lad)&&lad.length) c.firstPrice=lad[0].price; }catch(e){}
+  }
+  return c;
+}
+
+async function fetchLcscDetail(lcscCode){
+  const num=lcscCode.toString().toUpperCase().replace(/^C/,'');
+  const target=`https://wmsc.lcsc.com/ftps/wm/product/detail?productCode=C${num}`;
+  const url=`https://api.codetabs.com/v1/proxy/?quest=${encodeURIComponent(target)}`;
+  const res=await fetch(url,{signal:AbortSignal.timeout(8000)});
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  const json=await res.json();
+  const r=json.result||json;
+  if(!r||!r.productModel) return null;
+  return r;
+}
+
+// ══════════════════════════════════════════════════════════════
+//  RENDER RESULT
+// ══════════════════════════════════════════════════════════════
+function showResult(cat, apiData, lcscData, qrData){
   const badge=document.getElementById('categoryBadge');
   badge.style.background=`var(${cat.bg})`;
   badge.style.color=`var(${cat.color})`;
@@ -586,18 +692,12 @@ function showResult(cat, apiData, lcscData, qrData, apiSource){
      ['Categoria API', [apiData.subcategory, apiData.category].filter(Boolean).join(' › ')],
      ['Stock JLCPCB', apiData.stock!=null ? apiData.stock.toLocaleString('it') : null],
      ['Prezzo (1pz)', apiData.firstPrice!=null ? '$ '+Number(apiData.firstPrice).toFixed(4) : null]
-    ].forEach(([k,v])=>{
-      if(v===undefined||v===null||v==='') return;
-      const r=document.createElement('div');
-      r.className='api-info-row';
-      r.innerHTML=`<span class="api-info-key">${k}</span><span class="api-info-val">${v}</span>`;
-      rowsEl.appendChild(r);
-    });
+    ].forEach(([k,v])=>{ if(!v&&v!==0) return; addInfoRow(rowsEl,k,v); });
   } else if(lcscData){
     document.getElementById('apiInfoTitle').textContent='🌐 Dati da LCSC API';
     apiCard.style.display='block';
     const d=lcscData;
-    const firstUsd = Array.isArray(d.productPriceList)&&d.productPriceList.length ? d.productPriceList[0].usdPrice : null;
+    const firstUsd=Array.isArray(d.productPriceList)&&d.productPriceList.length?d.productPriceList[0].usdPrice:null;
     [['Part Number',  d.productModel],
      ['Produttore',   d.brandNameEn],
      ['Descrizione',  d.productIntroEn||d.productDescEn],
@@ -605,13 +705,7 @@ function showResult(cat, apiData, lcscData, qrData, apiSource){
      ['Categoria',    [d.catalogName||d.wmCatalogNameEn, d.parentCatalogName].filter(Boolean).join(' › ')],
      ['Stock LCSC',   d.stockNumber!=null ? Number(d.stockNumber).toLocaleString('it') : null],
      ['Prezzo (1pz)', firstUsd!=null ? '$ '+Number(firstUsd).toFixed(4) : null]
-    ].forEach(([k,v])=>{
-      if(v===undefined||v===null||v==='') return;
-      const r=document.createElement('div');
-      r.className='api-info-row';
-      r.innerHTML=`<span class="api-info-key">${k}</span><span class="api-info-val">${v}</span>`;
-      rowsEl.appendChild(r);
-    });
+    ].forEach(([k,v])=>{ if(!v&&v!==0) return; addInfoRow(rowsEl,k,v); });
   } else {
     apiCard.style.display='none';
   }
@@ -631,8 +725,86 @@ function showResult(cat, apiData, lcscData, qrData, apiSource){
   } else { fieldsCard.style.display='none'; }
 
   document.getElementById('result').classList.add('visible');
+  // Scroll result into view smoothly
+  document.getElementById('result').scrollIntoView({behavior:'smooth', block:'nearest'});
 }
 
+function addInfoRow(container, k, v){
+  const r=document.createElement('div');
+  r.className='api-info-row';
+  r.innerHTML=`<span class="api-info-key">${k}</span><span class="api-info-val">${v}</span>`;
+  container.appendChild(r);
+}
+
+// ══════════════════════════════════════════════════════════════
+//  HANDLERS
+// ══════════════════════════════════════════════════════════════
+function parseQRString(raw){
+  const inner=raw.trim().replace(/^\{/,'').replace(/\}$/,'');
+  const obj={};
+  inner.split(',').forEach(pair=>{const idx=pair.indexOf(':');if(idx<1)return;obj[pair.slice(0,idx).trim()]=pair.slice(idx+1).trim();});
+  return Object.keys(obj).length>=2?obj:null;
+}
+
+async function handleQRPayload(raw){
+  const data=parseQRString(raw);
+  if(!data){ showError('⚠ Formato QR non riconosciuto.'); return; }
+  const pc=data.pc||'';
+
+  let apiData=null, lcscData=null;
+  if(pc){
+    setApiStatus('loading','Ricerca su jlcsearch API...');
+    try{ apiData=await fetchJlcsearch(pc); }catch(e){}
+    if(apiData){
+      setApiStatus('ok','✓ Trovato su jlcsearch (JLCPCB)');
+    } else {
+      setApiStatus('loading','Non in JLCPCB — provo LCSC API...');
+      try{
+        lcscData=await fetchLcscDetail(pc);
+        setApiStatus(lcscData?'ok':'fallback', lcscData?'✓ Trovato su LCSC API':'⚠ Non trovato nelle API — classificazione locale');
+      }catch(e){ setApiStatus('fallback','⚠ API offline — classificazione locale'); }
+    }
+  } else { setApiStatus('fallback','⚠ Nessun pc nel QR — classificazione locale'); }
+
+  let cat;
+  if(apiData)      cat=mapApiCategory(apiData.subcategory,apiData.category,apiData.description||apiData.mfr)||classifyLocal(data.pm||'',pc);
+  else if(lcscData) cat=mapLcscCategory(lcscData)||classifyLocal(data.pm||'',pc);
+  else              cat=classifyLocal(data.pm||'',pc);
+
+  showResult(cat, apiData, lcscData, data);
+  const partLabel=apiData?apiData.mfr:(lcscData?lcscData.productModel:(data.pm||pc));
+  addHistory(cat.icon, partLabel, pc, cat.name, data.qty, raw);
+}
+
+async function handleCNumber(raw){
+  const num=raw.toUpperCase().replace(/^C/,'');
+  setApiStatus('loading','Ricerca su jlcsearch API...');
+  let apiData=null, lcscData=null;
+
+  try{ apiData=await fetchJlcsearch(raw); }catch(e){}
+  if(apiData){
+    setApiStatus('ok','✓ Trovato su jlcsearch (JLCPCB)');
+  } else {
+    setApiStatus('loading','Non in JLCPCB — provo LCSC API...');
+    try{
+      lcscData=await fetchLcscDetail(raw);
+      setApiStatus(lcscData?'ok':'fallback', lcscData?'✓ Trovato su LCSC API':'⚠ Non trovato nelle API — classificazione locale');
+    }catch(e){ setApiStatus('fallback','⚠ API offline — classificazione locale'); }
+  }
+
+  let cat;
+  if(apiData)      cat=mapApiCategory(apiData.subcategory,apiData.category,apiData.description||apiData.mfr)||classifyLocal(apiData.mfr||'','C'+num);
+  else if(lcscData) cat=mapLcscCategory(lcscData)||classifyLocal(lcscData.productModel||'','C'+num);
+  else              cat=classifyLocal('',raw);
+
+  showResult(cat, apiData, lcscData, null);
+  const partLabel=apiData?apiData.mfr:(lcscData?lcscData.productModel:('C'+num));
+  addHistory(cat.icon, partLabel, 'C'+num, cat.name, null, raw);
+}
+
+// ══════════════════════════════════════════════════════════════
+//  HISTORY
+// ══════════════════════════════════════════════════════════════
 function addHistory(icon, part, pc, catName, qty, raw){
   history.unshift({icon,part,pc,catName,qty,raw});
   if(history.length>20) history.pop();
@@ -647,144 +819,14 @@ function renderHistory(){
     item.className='history-item';
     item.innerHTML=`<span class="history-badge">${icon}</span><div class="history-info"><div class="history-part">${part||pc||'N/D'}</div><div class="history-meta">${catName} · ${pc||''}</div></div><span class="history-qty">×${qty||'?'}</span>`;
     item.addEventListener('click',()=>{
-      if(raw.startsWith('{')){switchTab('qr');document.getElementById('qrInput').value=raw;setTimeout(parseQR,50);}
-      else{switchTab('code');document.getElementById('codeInput').value=raw;setTimeout(searchByCode,50);}
+      document.getElementById('mainInput').value=raw;
+      routeInput(raw);
       window.scrollTo({top:0,behavior:'smooth'});
     });
     list.appendChild(item);
   });
 }
 function clearHistory(){history=[];renderHistory();}
-
-// ─── API 1: jlcsearch (JLCPCB catalog — fast, limited coverage) ────────────
-async function fetchJlcsearch(lcscCode){
-  const num=lcscCode.toString().toUpperCase().replace(/^C/,'');
-  const url=`https://jlcsearch.tscircuit.com/components/list.json?search=C${num}&full=true`;
-  const res=await fetch(url,{signal:AbortSignal.timeout(5000)});
-  if(!res.ok) throw new Error('HTTP '+res.status);
-  const json=await res.json();
-  const list=json.components||[];
-  const c=list.find(x=>String(x.lcsc)===num)||list[0]||null;
-  if(c && typeof c.price==='string'){
-    try{ const lad=JSON.parse(c.price); if(Array.isArray(lad)&&lad.length) c.firstPrice=lad[0].price; }catch(e){}
-  }
-  return c;
-}
-
-// ─── API 2: LCSC product detail via CORS proxy (full catalog) ─────────────
-// wmsc.lcsc.com sends no CORS headers → must go through proxy for browser fetch.
-async function fetchLcscDetail(lcscCode){
-  const num=lcscCode.toString().toUpperCase().replace(/^C/,'');
-  const target=`https://wmsc.lcsc.com/ftps/wm/product/detail?productCode=C${num}`;
-  const url=`https://api.codetabs.com/v1/proxy/?quest=${encodeURIComponent(target)}`;
-  const res=await fetch(url,{signal:AbortSignal.timeout(8000)});
-  if(!res.ok) throw new Error('HTTP '+res.status);
-  const json=await res.json();
-  const r=json.result||json;
-  if(!r||!r.productModel) return null;
-  return r;
-}
-
-// ─── Search by C-number ────────────────────────────────────────────────────
-async function searchByCode(){
-  hideError();hideResult();
-  const raw=document.getElementById('codeInput').value.trim();
-  if(!raw){showError('⚠ Inserisci un codice LCSC (es. C15840)');return;}
-  const num=raw.toUpperCase().replace(/^C/,'');
-
-  setApiStatus('loading','Ricerca su jlcsearch API...');
-  let apiData=null, lcscData=null;
-
-  // Step 1: try jlcsearch
-  try{
-    apiData=await fetchJlcsearch(raw);
-  }catch(e){ /* network error, continue */ }
-
-  if(apiData){
-    setApiStatus('ok','✓ Trovato su jlcsearch (JLCPCB)');
-  } else {
-    // Step 2: try LCSC direct API
-    setApiStatus('loading','Non in JLCPCB — provo LCSC API...');
-    try{
-      lcscData=await fetchLcscDetail(raw);
-      if(lcscData) setApiStatus('ok','✓ Trovato su LCSC API');
-      else setApiStatus('fallback','⚠ Non trovato nelle API — classificazione locale');
-    }catch(e){
-      setApiStatus('fallback','⚠ API offline — classificazione locale');
-    }
-  }
-
-  let cat;
-  if(apiData){
-    cat=mapApiCategory(apiData.subcategory,apiData.category,apiData.description||apiData.mfr)||classifyLocal(apiData.mfr||'','C'+num);
-  } else if(lcscData){
-    cat=mapLcscCategory(lcscData)||classifyLocal(lcscData.productModel||'','C'+num);
-  } else {
-    cat=classifyLocal('',raw);
-  }
-
-  showResult(cat, apiData, lcscData, null);
-  const partLabel=apiData?apiData.mfr:(lcscData?lcscData.productModel:('C'+num));
-  addHistory(cat.icon,partLabel,'C'+num,cat.name,null,raw);
-}
-
-// ─── Parse QR raw text ─────────────────────────────────────────────────────
-function parseQRString(raw){
-  const inner=raw.trim().replace(/^\{/,'').replace(/\}$/,'');
-  const obj={};
-  inner.split(',').forEach(pair=>{const idx=pair.indexOf(':');if(idx<1)return;obj[pair.slice(0,idx).trim()]=pair.slice(idx+1).trim();});
-  return Object.keys(obj).length>=2?obj:null;
-}
-
-async function parseQR(){
-  hideError();hideResult();
-  const raw=document.getElementById('qrInput').value.trim();
-  if(!raw){showError('⚠ Campo vuoto.');return;}
-  const data=parseQRString(raw);
-  if(!data){showError('⚠ Formato non riconosciuto. Atteso: {pbn:...,pc:C...,pm:...,qty:...}');return;}
-  const pc=data.pc||'';
-
-  let apiData=null, lcscData=null;
-  if(pc){
-    setApiStatus('loading','Ricerca su jlcsearch API...');
-    try{
-      apiData=await fetchJlcsearch(pc);
-    }catch(e){}
-
-    if(apiData){
-      setApiStatus('ok','✓ Trovato su jlcsearch (JLCPCB)');
-    } else {
-      setApiStatus('loading','Non in JLCPCB — provo LCSC API...');
-      try{
-        lcscData=await fetchLcscDetail(pc);
-        if(lcscData) setApiStatus('ok','✓ Trovato su LCSC API');
-        else setApiStatus('fallback','⚠ Non trovato nelle API — classificazione locale');
-      }catch(e){
-        setApiStatus('fallback','⚠ API offline — classificazione locale');
-      }
-    }
-  } else {
-    setApiStatus('fallback','⚠ Nessun pc nel QR — classificazione locale');
-  }
-
-  let cat;
-  if(apiData){
-    cat=mapApiCategory(apiData.subcategory,apiData.category,apiData.description||apiData.mfr)||classifyLocal(data.pm||'',pc);
-  } else if(lcscData){
-    cat=mapLcscCategory(lcscData)||classifyLocal(data.pm||'',pc);
-  } else {
-    cat=classifyLocal(data.pm||'',pc);
-  }
-
-  showResult(cat, apiData, lcscData, data);
-  const partLabel=apiData?apiData.mfr:(lcscData?lcscData.productModel:(data.pm||pc));
-  addHistory(cat.icon,partLabel,pc,cat.name,data.qty,raw);
-}
-
-// ─── Event listeners ───────────────────────────────────────────────────────
-document.getElementById('codeInput').addEventListener('keydown',e=>{if(e.key==='Enter')searchByCode();});
-document.getElementById('qrInput').addEventListener('keydown',e=>{if(e.key==='Enter')parseQR();});
-document.getElementById('qrInput').addEventListener('paste',()=>{setTimeout(parseQR,50);});
 </script>
 </body>
 </html>
