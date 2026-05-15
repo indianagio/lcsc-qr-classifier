@@ -1,0 +1,35 @@
+{
+  "name": "LCSC QR Scanner — Classificatore Componenti",
+  "short_name": "LCSC QR",
+  "description": "Scansiona e classifica i componenti LCSC tramite QR code o codice C-number",
+  "start_url": "./lcsc-qr-classifier.html",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#171614",
+  "theme_color": "#4f98a3",
+  "lang": "it",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["utilities", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Scansiona QR Code",
+      "short_name": "QR Scan",
+      "description": "Apri direttamente la tab QR Code",
+      "url": "./lcsc-qr-classifier.html#qr",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
