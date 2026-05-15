@@ -68,23 +68,16 @@
   .theme-toggle{padding:var(--space-2);border-radius:var(--radius-full);color:var(--color-text-muted);transition:color var(--transition),background var(--transition)}
   .theme-toggle:hover{color:var(--color-text);background:var(--color-surface-offset)}
 
-  /* ── Scanner status pill ── */
-  .scanner-pill{
-    display:flex;align-items:center;gap:var(--space-2);
-    font-size:var(--text-xs);font-weight:600;
-    padding:var(--space-1) var(--space-3);
-    border-radius:var(--radius-full);
-    background:var(--color-success-highlight);
-    color:var(--color-success);
+  /* ── How-to pill ── */
+  .howto-pill{
+    display:flex;align-items:flex-start;gap:var(--space-3);
+    background:var(--color-surface);border:1px solid var(--color-border);
+    border-radius:var(--radius-lg);padding:var(--space-3) var(--space-4);
     margin-bottom:var(--space-5);
-    width:fit-content;
   }
-  .scanner-dot{
-    width:7px;height:7px;border-radius:50%;
-    background:currentColor;
-    animation:pulse 2s ease-in-out infinite;
-  }
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  .howto-icon{font-size:1.3em;flex-shrink:0;margin-top:1px}
+  .howto-text{font-size:var(--text-xs);color:var(--color-text-muted);line-height:1.5}
+  .howto-text strong{color:var(--color-text);font-weight:600}
 
   /* ── Main input card ── */
   .input-card{
@@ -95,6 +88,22 @@
     box-shadow:var(--shadow-md);
     margin-bottom:var(--space-6);
   }
+
+  /* ── Mode indicator badge ── */
+  .mode-badge{
+    display:inline-flex;align-items:center;gap:var(--space-2);
+    font-size:var(--text-xs);font-weight:600;
+    padding:2px var(--space-3);
+    border-radius:var(--radius-full);
+    margin-bottom:var(--space-3);
+    transition:all var(--transition);
+  }
+  .mode-badge.mode-idle    {background:var(--color-surface-offset);color:var(--color-text-faint)}
+  .mode-badge.mode-typing  {background:var(--color-blue-highlight);color:var(--color-blue)}
+  .mode-badge.mode-scanning{background:var(--color-gold-highlight);color:var(--color-gold)}
+  .mode-badge.mode-qr      {background:var(--color-gold-highlight);color:var(--color-gold)}
+  .mode-badge.mode-barcode {background:var(--color-success-highlight);color:var(--color-success)}
+
   .input-label{
     font-size:var(--text-sm);font-weight:600;
     color:var(--color-text-muted);
@@ -105,7 +114,7 @@
   .main-input{
     flex:1;
     background:var(--color-bg);
-    border:1px solid var(--color-border);
+    border:1.5px solid var(--color-border);
     border-radius:var(--radius-md);
     padding:var(--space-3) var(--space-4);
     font-size:var(--text-base);
@@ -116,9 +125,9 @@
     border-color:var(--color-primary);
     box-shadow:0 0 0 3px oklch(from var(--color-primary) l c h / 0.15);
   }
-  .main-input.scanning{
+  .main-input.is-scanning{
     border-color:var(--color-gold);
-    box-shadow:0 0 0 3px oklch(from var(--color-gold) l c h / 0.2);
+    box-shadow:0 0 0 3px oklch(from var(--color-gold) l c h / 0.18);
   }
   .main-input::placeholder{color:var(--color-text-faint)}
   .btn-primary{
@@ -133,19 +142,6 @@
   .hint{font-size:var(--text-xs);color:var(--color-text-faint);margin-top:var(--space-2)}
   .hint code{font-family:'Courier New',monospace;font-size:.9em;background:var(--color-surface-offset);padding:1px 4px;border-radius:var(--radius-sm);color:var(--color-text-muted)}
 
-  /* ── Mode indicator badge inside input card ── */
-  .mode-badge{
-    display:inline-flex;align-items:center;gap:var(--space-2);
-    font-size:var(--text-xs);font-weight:600;
-    padding:2px var(--space-3);
-    border-radius:var(--radius-full);
-    margin-bottom:var(--space-3);
-    transition:all var(--transition);
-  }
-  .mode-badge.mode-manual{background:var(--color-blue-highlight);color:var(--color-blue)}
-  .mode-badge.mode-qr{background:var(--color-gold-highlight);color:var(--color-gold)}
-  .mode-badge.mode-barcode{background:var(--color-success-highlight);color:var(--color-success)}
-
   /* ── API status ── */
   .api-status{display:inline-flex;align-items:center;gap:var(--space-2);font-size:var(--text-xs);font-weight:600;padding:var(--space-1) var(--space-3);border-radius:var(--radius-full);margin-top:var(--space-3)}
   .api-status.loading{background:var(--color-gold-highlight);color:var(--color-gold)}
@@ -154,6 +150,10 @@
   .api-status.hidden{display:none}
   @keyframes spin{to{transform:rotate(360deg)}}
   .spinner{width:10px;height:10px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite}
+
+  /* ── Error ── */
+  .error-msg{background:color-mix(in oklch,var(--color-error) 10%,var(--color-surface));border:1px solid color-mix(in oklch,var(--color-error) 25%,var(--color-border));color:var(--color-error);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);font-size:var(--text-sm);margin-top:var(--space-3);display:none}
+  .error-msg.visible{display:block}
 
   /* ── Result ── */
   .result{display:none}
@@ -181,9 +181,6 @@
   .field-val{font-size:var(--text-sm);font-weight:500;color:var(--color-text);word-break:break-all}
   .field-desc{font-size:var(--text-xs);color:var(--color-text-muted)}
   .qty-val{font-size:var(--text-lg);font-weight:700;color:var(--color-primary)}
-
-  .error-msg{background:color-mix(in oklch,var(--color-error) 10%,var(--color-surface));border:1px solid color-mix(in oklch,var(--color-error) 25%,var(--color-border));color:var(--color-error);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);font-size:var(--text-sm);margin-top:var(--space-3);display:none}
-  .error-msg.visible{display:block}
 
   /* ── History ── */
   .history-section{margin-top:var(--space-10)}
@@ -231,25 +228,29 @@
     </button>
   </header>
 
-  <!-- Scanner always-on status -->
-  <div class="scanner-pill" id="scannerPill">
-    <span class="scanner-dot"></span>
-    <span id="scannerPillText">Scanner attivo — punta il lettore in qualsiasi momento</span>
+  <!-- How-to -->
+  <div class="howto-pill">
+    <span class="howto-icon">ℹ️</span>
+    <div class="howto-text">
+      <strong>Come usare:</strong> clicca sul campo qui sotto (o premi Tab) per assicurarti che sia attivo,
+      poi spara con il Tera D5100-CR — il codice viene inserito e classificato automaticamente.
+      In alternativa digita un <strong>C-number</strong> manualmente e premi <strong>Invio</strong>.
+    </div>
   </div>
 
   <!-- Single unified input card -->
   <div class="input-card">
-    <div class="mode-badge mode-manual" id="modeBadge">⌨️ Inserimento manuale</div>
+    <div class="mode-badge mode-idle" id="modeBadge">⬤ In attesa</div>
     <label class="input-label" for="mainInput">Codice LCSC o QR</label>
     <div class="input-row">
       <input class="main-input" id="mainInput"
              type="text"
-             placeholder="C15840 · oppure scansiona il QR con il lettore"
+             placeholder="C15840  ·  oppure spara il QR con il lettore"
              autocomplete="off" autocorrect="off" spellcheck="false">
       <button class="btn-primary" onclick="submitInput()">Cerca</button>
     </div>
     <div class="hint" id="inputHint">
-      Digita un <code>C-number</code> e premi Invio — oppure spara con il Tera D5100-CR senza cliccare nulla
+      Digita un <code>C-number</code> e premi Invio, oppure spara il QR con il lettore puntando qui
     </div>
     <div class="error-msg" id="errorMsg">⚠ Formato non riconosciuto.</div>
     <div class="api-status hidden" id="apiStatus">
@@ -307,7 +308,7 @@
 })();
 
 // ══════════════════════════════════════════════════════════════
-//  CATEGORIES  (identical to main)
+//  CATEGORIES
 // ══════════════════════════════════════════════════════════════
 const CATEGORIES = [
   { id:'relay',      name:'Relè',                   icon:'⚙️',  sub:'Relè elettromeccanici e allo stato solido',
@@ -374,136 +375,155 @@ const FIELD_META = {
 let history = [];
 
 // ══════════════════════════════════════════════════════════════
-//  GLOBAL QR INTERCEPT
-//  The Tera D5100-CR acts as a USB HID keyboard: it types the
-//  scanned string at ~20-30 chars/ms and ends with Enter (0x0D).
-//  Strategy:
-//    1. Listen for keydown events on the whole document.
-//    2. If a character arrives and the active element is NOT the
-//       manual C-number input, redirect it into a hidden buffer.
-//    3. After a configurable timeout (50 ms) with no new chars,
-//       treat the buffer as a complete scan and route it.
-//    4. If it looks like a QR payload ({...}), parse and classify.
-//       If it looks like a C-number, search by code.
-//    5. Clear the buffer and reset.
+//  SMART INPUT LOGIC
+//
+//  The Tera D5100-CR acts as a USB HID keyboard.
+//  When it scans, it "types" ~20-30 chars in <100ms then sends Enter.
+//  A human types one char every ~200-400ms.
+//
+//  Strategy — NO global interceptor, NO reading other elements:
+//    1. The input field is always visible and always auto-focused.
+//    2. We timestamp every 'input' event and track inter-keystroke
+//       intervals. If 3+ chars arrive within 80ms total → scanner mode.
+//    3. On Enter: submit immediately.
+//    4. On scanner mode + QR payload detected: auto-submit after
+//       a 120ms idle (in case the reader doesn't send Enter).
+//    5. Manual typing → normal behavior, user presses Enter or the
+//       "Cerca" button.
+//
+//  Result: zero risk of accidental reads — the field must be focused
+//  (user clicked it once), and rapid bursts are the only trigger.
 // ══════════════════════════════════════════════════════════════
-const SCAN_TIMEOUT_MS = 80;   // ms idle after last char → flush
-const MIN_SCAN_LEN    = 4;    // minimum chars to consider a scan
 
-let scanBuffer  = '';
-let scanTimer   = null;
-let scanning    = false;
+const inp = document.getElementById('mainInput');
 
-function isScannerChar(e){
-  // Printable char, not a modifier-only key
-  return e.key && e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey;
-}
+// Timing state
+let lastInputTime = 0;
+let rapidCount    = 0;        // chars arriving <80ms apart
+let autoTimer     = null;
+const RAPID_MS    = 80;       // max ms between chars to count as scanner
+const RAPID_MIN   = 4;        // min rapid chars to declare "scanner"
+const AUTO_FLUSH  = 120;      // ms idle after rapid burst → auto-submit
 
-function startScan(){
-  scanning = true;
-  const inp = document.getElementById('mainInput');
-  inp.classList.add('scanning');
-  setModeBadge('qr');
-}
+function onInput() {
+  const now = Date.now();
+  const delta = now - lastInputTime;
+  lastInputTime = now;
 
-function flushScan(){
-  scanning = false;
-  const inp = document.getElementById('mainInput');
-  inp.classList.remove('scanning');
-  const raw = scanBuffer.trim();
-  scanBuffer = '';
-  if(raw.length < MIN_SCAN_LEN) { setModeBadge('manual'); return; }
-  // Show what was scanned in the input field
-  inp.value = raw;
-  routeInput(raw);
-}
+  clearTimeout(autoTimer);
 
-document.addEventListener('keydown', function(e){
-  const active = document.activeElement;
-  const mainInput = document.getElementById('mainInput');
+  if (delta < RAPID_MS) {
+    rapidCount++;
+  } else {
+    rapidCount = 1; // reset — slow keystroke
+  }
 
-  // If user is typing manually in the main input, let it be
-  if(active === mainInput) return;
+  const val = inp.value;
 
-  // Enter key → flush immediately if we have a buffer
-  if(e.key === 'Enter'){
-    if(scanBuffer.length >= MIN_SCAN_LEN){
-      clearTimeout(scanTimer);
-      flushScan();
-      e.preventDefault();
+  if (rapidCount >= RAPID_MIN) {
+    // Scanner burst detected
+    inp.classList.add('is-scanning');
+    setModeBadge('scanning');
+    // If the value already looks like a complete QR payload, schedule auto-flush
+    if (looksComplete(val)) {
+      autoTimer = setTimeout(() => {
+        inp.classList.remove('is-scanning');
+        submitInput();
+      }, AUTO_FLUSH);
+    } else {
+      // Wait a bit longer for more chars
+      autoTimer = setTimeout(() => {
+        inp.classList.remove('is-scanning');
+        if (inp.value.trim().length >= 4) submitInput();
+      }, AUTO_FLUSH * 2);
     }
-    return;
+  } else {
+    inp.classList.remove('is-scanning');
+    setModeBadge(val.length ? 'typing' : 'idle');
   }
+}
 
-  // Printable char → intercept into buffer
-  if(isScannerChar(e)){
-    if(!scanning) startScan();
-    scanBuffer += e.key;
-    clearTimeout(scanTimer);
-    scanTimer = setTimeout(flushScan, SCAN_TIMEOUT_MS);
-    e.preventDefault(); // prevent char from landing in other inputs/browser bar
+function looksComplete(val) {
+  const v = val.trim();
+  // QR payload ends with }
+  if (v.startsWith('{') && v.endsWith('}')) return true;
+  // C-number: C followed by digits, minimum 4 chars total
+  if (/^C?\d{4,}$/i.test(v)) return true;
+  return false;
+}
+
+inp.addEventListener('input', onInput);
+
+inp.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    clearTimeout(autoTimer);
+    inp.classList.remove('is-scanning');
+    submitInput();
   }
 });
 
-// Manual input: Enter key or button
-const mainInputEl = document.getElementById('mainInput');
-mainInputEl.addEventListener('keydown', e => {
-  if(e.key === 'Enter') submitInput();
+// Restore idle badge when field is cleared
+inp.addEventListener('blur', () => {
+  if (!inp.value.trim()) setModeBadge('idle');
 });
-mainInputEl.addEventListener('input', () => {
-  setModeBadge('manual');
-});
-// Auto-focus on page load so keyboard typing is always captured
-mainInputEl.focus();
+
+// Auto-focus on page load
+inp.focus();
+
+// ══════════════════════════════════════════════════════════════
+//  MODE BADGE
+// ══════════════════════════════════════════════════════════════
+function setModeBadge(mode) {
+  const b = document.getElementById('modeBadge');
+  const h = document.getElementById('inputHint');
+  b.className = 'mode-badge mode-' + mode;
+  switch(mode) {
+    case 'idle':
+      b.textContent = '⬤ In attesa';
+      h.innerHTML = 'Clicca qui, poi spara il QR — oppure digita un <code>C-number</code> e premi Invio';
+      break;
+    case 'typing':
+      b.textContent = '⌨️ Inserimento manuale';
+      h.innerHTML = 'Premi <code>Invio</code> o clicca <strong>Cerca</strong> per classificare';
+      break;
+    case 'scanning':
+      b.textContent = '⚡ Scanner attivo…';
+      h.innerHTML = 'Burst dal lettore rilevato — classificazione automatica in corso…';
+      break;
+    case 'qr':
+      b.textContent = '📷 QR Code';
+      h.innerHTML = 'Payload LCSC riconosciuto automaticamente';
+      break;
+    case 'barcode':
+      b.textContent = '▦ Barcode C-number';
+      h.innerHTML = 'Codice prodotto riconosciuto automaticamente';
+      break;
+  }
+}
 
 // ══════════════════════════════════════════════════════════════
 //  INPUT ROUTING
 // ══════════════════════════════════════════════════════════════
-function submitInput(){
-  const raw = document.getElementById('mainInput').value.trim();
-  if(!raw){ showError('⚠ Campo vuoto.'); return; }
-  routeInput(raw);
-}
-
-function routeInput(raw){
-  hideError(); hideResult();
-  if(raw.startsWith('{') || raw.includes(',pc:') || raw.includes('pbn:')){
-    // QR payload format
+function submitInput() {
+  const raw = inp.value.trim();
+  if (!raw) { showError('⚠ Campo vuoto.'); return; }
+  hideError(); hideResult(); rapidCount = 0;
+  if (raw.startsWith('{') || raw.includes(',pc:') || raw.includes('pbn:')) {
     setModeBadge('qr');
     handleQRPayload(raw);
   } else {
-    // C-number or plain number
     setModeBadge('barcode');
     handleCNumber(raw);
   }
 }
 
 // ══════════════════════════════════════════════════════════════
-//  MODE BADGE
-// ══════════════════════════════════════════════════════════════
-function setModeBadge(mode){
-  const b = document.getElementById('modeBadge');
-  const h = document.getElementById('inputHint');
-  b.className = 'mode-badge mode-' + mode;
-  if(mode === 'manual'){
-    b.textContent = '⌨️ Inserimento manuale';
-    h.innerHTML = 'Digita un <code>C-number</code> e premi Invio — oppure spara con il Tera D5100-CR senza cliccare nulla';
-  } else if(mode === 'qr'){
-    b.textContent = '📷 QR Code rilevato';
-    h.innerHTML = 'Payload LCSC intercettato automaticamente dallo scanner';
-  } else {
-    b.textContent = '⚡ Barcode rilevato';
-    h.innerHTML = 'Codice scansionato automaticamente dal lettore';
-  }
-}
-
-// ══════════════════════════════════════════════════════════════
 //  UI HELPERS
 // ══════════════════════════════════════════════════════════════
-function hideError(){ document.getElementById('errorMsg').classList.remove('visible'); }
-function showError(msg){ const e=document.getElementById('errorMsg'); e.textContent=msg; e.classList.add('visible'); }
-function hideResult(){ document.getElementById('result').classList.remove('visible'); }
-function setApiStatus(state, text){
+function hideError()  { document.getElementById('errorMsg').classList.remove('visible'); }
+function showError(m) { const e=document.getElementById('errorMsg'); e.textContent=m; e.classList.add('visible'); }
+function hideResult() { document.getElementById('result').classList.remove('visible'); }
+function setApiStatus(state, text) {
   const el=document.getElementById('apiStatus');
   el.className='api-status';
   if(state==='hidden'){el.classList.add('hidden');return;}
@@ -513,7 +533,7 @@ function setApiStatus(state, text){
 }
 
 // ══════════════════════════════════════════════════════════════
-//  CLASSIFICATION  (LCSC_TOP_MAP — unchanged from main)
+//  LCSC_TOP_MAP + classifySub (unchanged)
 // ══════════════════════════════════════════════════════════════
 const LCSC_TOP_MAP = {
   'capacitors':'capacitor','resistors':'resistor',
@@ -562,55 +582,41 @@ const LCSC_TOP_MAP = {
 
 function classifySub(rule, sub){
   switch(rule){
-    case '__inductor_xfmr_split':
-      if(/accessor/.test(sub)) return 'module';
-      if(/transformer/.test(sub)) return 'transformer';
-      return 'inductor';
-    case '__diode_or_transistor':
-      if(/transistor|hemt|mosfet/.test(sub)) return 'transistor';
-      return 'diode';
-    case '__led_or_ic':
-      if(/optocoupler|opto.?coupler|photocoupler|digital isolator|signal isolator|gate drive opto/.test(sub)) return 'ic';
-      return 'led';
-    case '__rf_split':
-      if(/antenna/.test(sub)) return 'connector';
-      return 'ic';
-    case '__switch_relay_split':
-      if(/relay/.test(sub)) return 'relay';
-      return 'switch';
+    case '__inductor_xfmr_split': if(/accessor/.test(sub))return'module'; if(/transformer/.test(sub))return'transformer'; return'inductor';
+    case '__diode_or_transistor': if(/transistor|hemt|mosfet/.test(sub))return'transistor'; return'diode';
+    case '__led_or_ic': if(/optocoupler|opto.?coupler|photocoupler|digital isolator|signal isolator|gate drive opto/.test(sub))return'ic'; return'led';
+    case '__rf_split': if(/antenna/.test(sub))return'connector'; return'ic';
+    case '__switch_relay_split': if(/relay/.test(sub))return'relay'; return'switch';
   }
   return null;
 }
 
 function mapApiCategory(subcatName, catName, description){
-  const sub  = (subcatName  || '').toLowerCase().trim();
-  const top  = (catName     || '').toLowerCase().trim();
-  const desc = (description || '').toLowerCase();
-  const direct = LCSC_TOP_MAP[top];
-  if(direct){
-    const id = direct.startsWith('__') ? classifySub(direct, sub) : direct;
-    if(id) return find(id);
-  }
-  const topN = top.replace(/[\/,&]/g,' ').replace(/\s+/g,' ').trim();
-  if(/transformer/.test(sub) && !/accessor/.test(sub))          return find('transformer');
-  if(/optocoupler|digital isolator/.test(sub))                  return find('ic');
-  if(/\bleds?\b|light emitting/.test(sub))                      return find('led');
-  if(/\brelays?\b/.test(topN))                                  return find('relay');
-  if(/\bcapacitors?\b/.test(topN))                              return find('capacitor');
-  if(/\bresistors?\b/.test(topN))                               return find('resistor');
-  if(/\binductors?\b|\bcoils?\b|\bchokes?\b/.test(topN))        return find('inductor');
+  const sub=(subcatName||'').toLowerCase().trim();
+  const top=(catName||'').toLowerCase().trim();
+  const desc=(description||'').toLowerCase();
+  const direct=LCSC_TOP_MAP[top];
+  if(direct){const id=direct.startsWith('__')?classifySub(direct,sub):direct;if(id)return find(id);}
+  const topN=top.replace(/[\/,&]/g,' ').replace(/\s+/g,' ').trim();
+  if(/transformer/.test(sub)&&!/accessor/.test(sub))          return find('transformer');
+  if(/optocoupler|digital isolator/.test(sub))                return find('ic');
+  if(/\bleds?\b|light emitting/.test(sub))                    return find('led');
+  if(/\brelays?\b/.test(topN))                                return find('relay');
+  if(/\bcapacitors?\b/.test(topN))                            return find('capacitor');
+  if(/\bresistors?\b/.test(topN))                             return find('resistor');
+  if(/\binductors?\b|\bcoils?\b|\bchokes?\b/.test(topN))      return find('inductor');
   if(/\bcrystals?\b|\boscillators?\b|\bresonators?\b/.test(topN)) return find('crystal');
-  if(/\bdiodes?\b/.test(topN))                                  return find('diode');
-  if(/optoelectronic|\bleds?\b/.test(topN))                     return find('led');
-  if(/\btransistors?\b|thyristor|mosfet/.test(topN))            return find('transistor');
-  if(/\bfuses?\b|protection/.test(topN))                        return find('fuse');
-  if(/\bsensors?\b/.test(topN))                                 return find('sensor');
-  if(/\bswitches?\b/.test(topN))                                return find('switch');
-  if(/\bconnectors?\b|terminal|wire|cable/.test(topN))          return find('connector');
+  if(/\bdiodes?\b/.test(topN))                                return find('diode');
+  if(/optoelectronic|\bleds?\b/.test(topN))                   return find('led');
+  if(/\btransistors?\b|thyristor|mosfet/.test(topN))          return find('transistor');
+  if(/\bfuses?\b|protection/.test(topN))                      return find('fuse');
+  if(/\bsensors?\b/.test(topN))                               return find('sensor');
+  if(/\bswitches?\b/.test(topN))                              return find('switch');
+  if(/\bconnectors?\b|terminal|wire|cable/.test(topN))        return find('connector');
   if(/\bics?\b|integrated circuit|amplifier|microcontroller|memory|interface|clock|timing|power management|isolator|driver/.test(topN)) return find('ic');
-  if(/transformer/.test(desc))  return find('transformer');
+  if(/transformer/.test(desc))     return find('transformer');
   if(/capacitor|tantalum/.test(desc)) return find('capacitor');
-  if(/resistor|\bohm/.test(desc)) return find('resistor');
+  if(/resistor|\bohm/.test(desc))  return find('resistor');
   if(/inductor|ferrite bead/.test(desc)) return find('inductor');
   if(/diode|zener|schottky/.test(desc)) return find('diode');
   if(/transistor|mosfet/.test(desc)) return find('transistor');
@@ -619,25 +625,22 @@ function mapApiCategory(subcatName, catName, description){
 }
 
 function mapLcscCategory(data){
-  const sub  = data.catalogName       || data.wmCatalogNameEn || '';
-  const top  = data.parentCatalogName || '';
-  const desc = (data.productIntroEn || data.productDescEn || '') + ' ' + (data.productModel || '');
-  return mapApiCategory(sub, top, desc);
+  const sub=data.catalogName||data.wmCatalogNameEn||'';
+  const top=data.parentCatalogName||'';
+  const desc=(data.productIntroEn||data.productDescEn||'')+' '+(data.productModel||'');
+  return mapApiCategory(sub,top,desc);
 }
 
 function classifyLocal(pm, pc){
-  const combined = ((pm||'')+' '+(pc||'')).toLowerCase();
+  const combined=((pm||'')+' '+(pc||'')).toLowerCase();
   for(const cat of CATEGORIES.slice(0,-1)){
-    for(const kw of cat.kw){ if(combined.includes(kw)) return cat; }
-    for(const pfx of cat.pfx){
-      const p = (pm||'').toUpperCase();
-      if(p.startsWith(pfx) && pfx.length >= 2) return cat;
-    }
+    for(const kw of cat.kw){if(combined.includes(kw))return cat;}
+    for(const pfx of cat.pfx){const p=(pm||'').toUpperCase();if(p.startsWith(pfx)&&pfx.length>=2)return cat;}
   }
   return CATEGORIES[CATEGORIES.length-1];
 }
 
-function find(id){ return CATEGORIES.find(c=>c.id===id)||CATEGORIES[CATEGORIES.length-1]; }
+function find(id){return CATEGORIES.find(c=>c.id===id)||CATEGORIES[CATEGORIES.length-1];}
 
 // ══════════════════════════════════════════════════════════════
 //  API CALLS
@@ -646,13 +649,11 @@ async function fetchJlcsearch(lcscCode){
   const num=lcscCode.toString().toUpperCase().replace(/^C/,'');
   const url=`https://jlcsearch.tscircuit.com/components/list.json?search=C${num}&full=true`;
   const res=await fetch(url,{signal:AbortSignal.timeout(5000)});
-  if(!res.ok) throw new Error('HTTP '+res.status);
+  if(!res.ok)throw new Error('HTTP '+res.status);
   const json=await res.json();
   const list=json.components||[];
   const c=list.find(x=>String(x.lcsc)===num)||list[0]||null;
-  if(c && typeof c.price==='string'){
-    try{ const lad=JSON.parse(c.price); if(Array.isArray(lad)&&lad.length) c.firstPrice=lad[0].price; }catch(e){}
-  }
+  if(c&&typeof c.price==='string'){try{const lad=JSON.parse(c.price);if(Array.isArray(lad)&&lad.length)c.firstPrice=lad[0].price;}catch(e){}}
   return c;
 }
 
@@ -661,10 +662,10 @@ async function fetchLcscDetail(lcscCode){
   const target=`https://wmsc.lcsc.com/ftps/wm/product/detail?productCode=C${num}`;
   const url=`https://api.codetabs.com/v1/proxy/?quest=${encodeURIComponent(target)}`;
   const res=await fetch(url,{signal:AbortSignal.timeout(8000)});
-  if(!res.ok) throw new Error('HTTP '+res.status);
+  if(!res.ok)throw new Error('HTTP '+res.status);
   const json=await res.json();
   const r=json.result||json;
-  if(!r||!r.productModel) return null;
+  if(!r||!r.productModel)return null;
   return r;
 }
 
@@ -686,26 +687,21 @@ function showResult(cat, apiData, lcscData, qrData){
   if(apiData){
     document.getElementById('apiInfoTitle').textContent='📡 Dati da jlcsearch API';
     apiCard.style.display='block';
-    [['Part Number', apiData.mfr],
-     ['Descrizione', apiData.description],
-     ['Package',     apiData.package],
-     ['Categoria API', [apiData.subcategory, apiData.category].filter(Boolean).join(' › ')],
-     ['Stock JLCPCB', apiData.stock!=null ? apiData.stock.toLocaleString('it') : null],
-     ['Prezzo (1pz)', apiData.firstPrice!=null ? '$ '+Number(apiData.firstPrice).toFixed(4) : null]
-    ].forEach(([k,v])=>{ if(!v&&v!==0) return; addInfoRow(rowsEl,k,v); });
+    [['Part Number',apiData.mfr],['Descrizione',apiData.description],['Package',apiData.package],
+     ['Categoria API',[apiData.subcategory,apiData.category].filter(Boolean).join(' › ')],
+     ['Stock JLCPCB',apiData.stock!=null?apiData.stock.toLocaleString('it'):null],
+     ['Prezzo (1pz)',apiData.firstPrice!=null?'$ '+Number(apiData.firstPrice).toFixed(4):null]
+    ].forEach(([k,v])=>{if(!v&&v!==0)return;addInfoRow(rowsEl,k,v);});
   } else if(lcscData){
     document.getElementById('apiInfoTitle').textContent='🌐 Dati da LCSC API';
     apiCard.style.display='block';
     const d=lcscData;
     const firstUsd=Array.isArray(d.productPriceList)&&d.productPriceList.length?d.productPriceList[0].usdPrice:null;
-    [['Part Number',  d.productModel],
-     ['Produttore',   d.brandNameEn],
-     ['Descrizione',  d.productIntroEn||d.productDescEn],
-     ['Package',      d.encapStandard],
-     ['Categoria',    [d.catalogName||d.wmCatalogNameEn, d.parentCatalogName].filter(Boolean).join(' › ')],
-     ['Stock LCSC',   d.stockNumber!=null ? Number(d.stockNumber).toLocaleString('it') : null],
-     ['Prezzo (1pz)', firstUsd!=null ? '$ '+Number(firstUsd).toFixed(4) : null]
-    ].forEach(([k,v])=>{ if(!v&&v!==0) return; addInfoRow(rowsEl,k,v); });
+    [['Part Number',d.productModel],['Produttore',d.brandNameEn],['Descrizione',d.productIntroEn||d.productDescEn],
+     ['Package',d.encapStandard],['Categoria',[d.catalogName||d.wmCatalogNameEn,d.parentCatalogName].filter(Boolean).join(' › ')],
+     ['Stock LCSC',d.stockNumber!=null?Number(d.stockNumber).toLocaleString('it'):null],
+     ['Prezzo (1pz)',firstUsd!=null?'$ '+Number(firstUsd).toFixed(4):null]
+    ].forEach(([k,v])=>{if(!v&&v!==0)return;addInfoRow(rowsEl,k,v);});
   } else {
     apiCard.style.display='none';
   }
@@ -725,11 +721,10 @@ function showResult(cat, apiData, lcscData, qrData){
   } else { fieldsCard.style.display='none'; }
 
   document.getElementById('result').classList.add('visible');
-  // Scroll result into view smoothly
-  document.getElementById('result').scrollIntoView({behavior:'smooth', block:'nearest'});
+  document.getElementById('result').scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
-function addInfoRow(container, k, v){
+function addInfoRow(container,k,v){
   const r=document.createElement('div');
   r.className='api-info-row';
   r.innerHTML=`<span class="api-info-key">${k}</span><span class="api-info-val">${v}</span>`;
@@ -748,66 +743,66 @@ function parseQRString(raw){
 
 async function handleQRPayload(raw){
   const data=parseQRString(raw);
-  if(!data){ showError('⚠ Formato QR non riconosciuto.'); return; }
+  if(!data){showError('⚠ Formato QR non riconosciuto.');return;}
   const pc=data.pc||'';
 
-  let apiData=null, lcscData=null;
+  let apiData=null,lcscData=null;
   if(pc){
     setApiStatus('loading','Ricerca su jlcsearch API...');
-    try{ apiData=await fetchJlcsearch(pc); }catch(e){}
+    try{apiData=await fetchJlcsearch(pc);}catch(e){}
     if(apiData){
       setApiStatus('ok','✓ Trovato su jlcsearch (JLCPCB)');
     } else {
       setApiStatus('loading','Non in JLCPCB — provo LCSC API...');
       try{
         lcscData=await fetchLcscDetail(pc);
-        setApiStatus(lcscData?'ok':'fallback', lcscData?'✓ Trovato su LCSC API':'⚠ Non trovato nelle API — classificazione locale');
-      }catch(e){ setApiStatus('fallback','⚠ API offline — classificazione locale'); }
+        setApiStatus(lcscData?'ok':'fallback',lcscData?'✓ Trovato su LCSC API':'⚠ Non trovato nelle API — classificazione locale');
+      }catch(e){setApiStatus('fallback','⚠ API offline — classificazione locale');}
     }
-  } else { setApiStatus('fallback','⚠ Nessun pc nel QR — classificazione locale'); }
+  } else {setApiStatus('fallback','⚠ Nessun pc nel QR — classificazione locale');}
 
   let cat;
-  if(apiData)      cat=mapApiCategory(apiData.subcategory,apiData.category,apiData.description||apiData.mfr)||classifyLocal(data.pm||'',pc);
+  if(apiData)       cat=mapApiCategory(apiData.subcategory,apiData.category,apiData.description||apiData.mfr)||classifyLocal(data.pm||'',pc);
   else if(lcscData) cat=mapLcscCategory(lcscData)||classifyLocal(data.pm||'',pc);
   else              cat=classifyLocal(data.pm||'',pc);
 
-  showResult(cat, apiData, lcscData, data);
+  showResult(cat,apiData,lcscData,data);
   const partLabel=apiData?apiData.mfr:(lcscData?lcscData.productModel:(data.pm||pc));
-  addHistory(cat.icon, partLabel, pc, cat.name, data.qty, raw);
+  addHistory(cat.icon,partLabel,pc,cat.name,data.qty,raw);
 }
 
 async function handleCNumber(raw){
   const num=raw.toUpperCase().replace(/^C/,'');
   setApiStatus('loading','Ricerca su jlcsearch API...');
-  let apiData=null, lcscData=null;
+  let apiData=null,lcscData=null;
 
-  try{ apiData=await fetchJlcsearch(raw); }catch(e){}
+  try{apiData=await fetchJlcsearch(raw);}catch(e){}
   if(apiData){
     setApiStatus('ok','✓ Trovato su jlcsearch (JLCPCB)');
   } else {
     setApiStatus('loading','Non in JLCPCB — provo LCSC API...');
     try{
       lcscData=await fetchLcscDetail(raw);
-      setApiStatus(lcscData?'ok':'fallback', lcscData?'✓ Trovato su LCSC API':'⚠ Non trovato nelle API — classificazione locale');
-    }catch(e){ setApiStatus('fallback','⚠ API offline — classificazione locale'); }
+      setApiStatus(lcscData?'ok':'fallback',lcscData?'✓ Trovato su LCSC API':'⚠ Non trovato nelle API — classificazione locale');
+    }catch(e){setApiStatus('fallback','⚠ API offline — classificazione locale');}
   }
 
   let cat;
-  if(apiData)      cat=mapApiCategory(apiData.subcategory,apiData.category,apiData.description||apiData.mfr)||classifyLocal(apiData.mfr||'','C'+num);
+  if(apiData)       cat=mapApiCategory(apiData.subcategory,apiData.category,apiData.description||apiData.mfr)||classifyLocal(apiData.mfr||'','C'+num);
   else if(lcscData) cat=mapLcscCategory(lcscData)||classifyLocal(lcscData.productModel||'','C'+num);
   else              cat=classifyLocal('',raw);
 
-  showResult(cat, apiData, lcscData, null);
+  showResult(cat,apiData,lcscData,null);
   const partLabel=apiData?apiData.mfr:(lcscData?lcscData.productModel:('C'+num));
-  addHistory(cat.icon, partLabel, 'C'+num, cat.name, null, raw);
+  addHistory(cat.icon,partLabel,'C'+num,cat.name,null,raw);
 }
 
 // ══════════════════════════════════════════════════════════════
 //  HISTORY
 // ══════════════════════════════════════════════════════════════
-function addHistory(icon, part, pc, catName, qty, raw){
+function addHistory(icon,part,pc,catName,qty,raw){
   history.unshift({icon,part,pc,catName,qty,raw});
-  if(history.length>20) history.pop();
+  if(history.length>20)history.pop();
   renderHistory();
 }
 function renderHistory(){
@@ -818,15 +813,17 @@ function renderHistory(){
     const item=document.createElement('div');
     item.className='history-item';
     item.innerHTML=`<span class="history-badge">${icon}</span><div class="history-info"><div class="history-part">${part||pc||'N/D'}</div><div class="history-meta">${catName} · ${pc||''}</div></div><span class="history-qty">×${qty||'?'}</span>`;
-    item.addEventListener('click',()=>{
-      document.getElementById('mainInput').value=raw;
-      routeInput(raw);
-      window.scrollTo({top:0,behavior:'smooth'});
-    });
+    item.addEventListener('click',()=>{inp.value=raw;routeInput(raw);window.scrollTo({top:0,behavior:'smooth'});});
     list.appendChild(item);
   });
 }
 function clearHistory(){history=[];renderHistory();}
+
+function routeInput(raw){
+  hideError();hideResult();
+  if(raw.startsWith('{')||raw.includes(',pc:')||raw.includes('pbn:')){setModeBadge('qr');handleQRPayload(raw);}
+  else{setModeBadge('barcode');handleCNumber(raw);}
+}
 </script>
 </body>
 </html>
