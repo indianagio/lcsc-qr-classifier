@@ -266,10 +266,14 @@ const CATEGORIES = [
     bg:'--color-gold-highlight', color:'--color-gold',
     kw:['resistor','ohm','kohm','mohm','ntc thermistor','ptc resistor','potentiometer','trimmer','thick film','thin film','current sense resistor'],
     pfx:['R','RN','VR','RT','NTC'] },
-  { id:'inductor',  name:'Induttore',               icon:'〰',   sub:'Induttori, bobine, trasformatori, ferrite bead',
+  { id:'transformer', name:'Trasformatore',         icon:'⊕',   sub:'Trasformatori — pulse, LAN/RJ45, audio, di potenza, isolamento',
     bg:'--color-primary-highlight', color:'--color-primary',
-    kw:['inductor','power inductor','ferrite bead','choke','bead','transformer','coupled inductor',' mh',' uh',' nh'],
-    pfx:['L','FL','T','TR','FB'] },
+    kw:['transformer','pulse transformer','lan transformer','rj45 transformer','audio transformer','isolation transformer','flyback transformer'],
+    pfx:['TR','TX'] },
+  { id:'inductor',  name:'Induttore',               icon:'〰',   sub:'Induttori, bobine, choke, ferrite bead',
+    bg:'--color-primary-highlight', color:'--color-primary',
+    kw:['inductor','power inductor','ferrite bead','choke','bead','coupled inductor',' mh',' uh',' nh'],
+    pfx:['L','FL','FB'] },
   { id:'diode',     name:'Diodo',                   icon:'▷|',  sub:'Diodi — rettificatori, Zener, Schottky, TVS, ESD',
     bg:'--color-notification-highlight', color:'--color-notification',
     kw:['diode','zener','schottky','tvs','esd','rectifier','bridge rectifier','ss14','ss34','bat','bas','bav','esda','pesd','smbj','smaj','1n4148','1n4007'],
@@ -340,32 +344,209 @@ function setApiStatus(state, text){
 }
 
 // ─── Classification logic ──────────────────────────────────────────────────
-// PRIORITY 1: map API category/subcategory text → category id
-function mapApiCategory(subcatName, catName, description){
-  const s = ((subcatName||'')+'|'+(catName||'')).toLowerCase();
-  const d = (description||'').toLowerCase();
-  if(/relay/.test(s)||/relay/.test(d)) return find('relay');
-  if(/capacitor|tantalum|electrolytic|mlcc|film cap/.test(s)||/capacitor|tantalum/.test(d)) return find('capacitor');
-  if(/resistor/.test(s)||/resistor/.test(d)) return find('resistor');
-  if(/inductor|ferrite bead/.test(s)||/inductor|ferrite bead/.test(d)) return find('inductor');
-  if(/light emitting|led/.test(s)) return find('led');
-  if(/diode|tvs|esd|schottky|zener|rectifier/.test(s)||/diode|tvs|schottky|zener/.test(d)) return find('diode');
-  if(/transistor|mosfet|bjt|igbt|triac|scr/.test(s)||/transistor|mosfet/.test(d)) return find('transistor');
-  if(/crystal|oscillator|resonator|tcxo/.test(s)) return find('crystal');
-  if(/connector|terminal|header|socket/.test(s)) return find('connector');
-  if(/switch|pushbutton|button|tact|encoder/.test(s)) return find('switch');
-  if(/fuse|ptc|varistor|mov/.test(s)) return find('fuse');
-  if(/sensor|accelero|gyro|imu|temperature sensor|humidity|pressure/.test(s)||/sensor/.test(d)) return find('sensor');
-  if(/microcontroller|mcu|logic ic|op.?amp|amplifier|comparator|regulator|ldo|buck|converter|driver|pmic|charger|interface|communication/.test(s)||/integrated circuit|ic/.test(s)) return find('ic');
-  if(/display|lcd|oled/.test(s)) return find('led');
+// Every LCSC component carries `parentCatalogName` (top) and `catalogName` (sub).
+// The classifier is a deterministic lookup over `parentCatalogName` → our 14
+// macro-categories. The map covers all 103 distinct lowercase tops returned by
+// jlcsearch/LCSC. For the handful of tops that bundle multiple device families
+// (e.g. "Inductors, Coils, Chokes" contains both inductors *and* transformers),
+// the special value `__name` triggers a sub-level disambiguation rule.
+//
+// Generic keyword detection is used **only** when the top is unknown to the map
+// (i.e. LCSC introduces a new category) — never as a per-code workaround.
+const LCSC_TOP_MAP = {
+  // ── Passives ──
+  'capacitors':                                          'capacitor',
+  'resistors':                                           'resistor',
+  'filters':                                             'inductor',
+  'filters/emi optimization':                            'inductor',
+  'bead/filter/emi optimization':                        'inductor',
+  'inductors & chokes & transformers':                   '__inductor_xfmr_split',
+  'inductors, coils, chokes':                            '__inductor_xfmr_split',
+  'inductors/coils/transformers':                        '__inductor_xfmr_split',
+  'crystals':                                            'crystal',
+  'crystals, oscillators, resonators':                   'crystal',
+  'crystals/oscillators/resonators':                     'crystal',
+  'crystal oscillator/oscillator/resonator':             'crystal',
+  'resonators/oscillators':                              'crystal',
+  // ── Discretes ──
+  'diodes':                                              'diode',
+  'silicon carbide (sic) devices':                       '__diode_or_transistor',
+  'transistors':                                         'transistor',
+  'transistors/thyristors':                              'transistor',
+  'triode/mos tube/transistor':                          'transistor',
+  'gallium nitride (gan) devices':                       'transistor',
+  // ── Opto / display ──
+  'optoelectronics':                                     '__led_or_ic',
+  'optocouplers & leds & infrared':                      '__led_or_ic',
+  'optocoupler/led/digital tube/photoelectric device':   '__led_or_ic',
+  'photoelectric devices':                               '__led_or_ic',
+  'led/photoelectric devices':                           'led',
+  'display screen':                                      'led',
+  'displays':                                            'led',
+  'optocoupler':                                         'ic',
+  'optocouplers/photocouplers':                          'ic',
+  'optoisolators':                                       'ic',
+  // ── ICs (every IC-family top maps here) ──
+  'amplifiers':                                          'ic',
+  'amplifiers/comparators':                              'ic',
+  'operational amplifier/comparator':                    'ic',
+  'analog ics':                                          'ic',
+  'logic':                                               'ic',
+  'logic ics':                                           'ic',
+  'memory':                                              'ic',
+  'embedded processors & controllers':                   'ic',
+  'single chip microcomputer/microcontroller':           'ic',
+  'embedded peripheral ics':                             'ic',
+  'interface':                                           'ic',
+  'interface ics':                                       'ic',
+  'communication interface chip':                        'ic',
+  'communication interface chip/uart/485/232':           'ic',
+  'driver ics':                                          'ic',
+  'motor driver ics':                                    'ic',
+  'led drivers':                                         'ic',
+  'display modules / led drivers / display drivers':     'ic',
+  'nixie tube driver/led driver':                        'ic',
+  'power management':                                    'ic',
+  'power management (pmic)':                             'ic',
+  'power management ics':                                'ic',
+  'power supply chip':                                   'ic',
+  'isolators':                                           'ic',
+  'signal isolation devices':                            'ic',
+  'data acquisition':                                    'ic',
+  'data converters':                                     'ic',
+  'adc/dac/data conversion':                             'ic',
+  'clock and timing':                                    'ic',
+  'clock/timing':                                        'ic',
+  'rtc/clock chip':                                      'ic',
+  'rf & radio':                                          '__rf_split',
+  'rf and wireless':                                     '__rf_split',
+  'radio frequency chip/antenna':                        '__rf_split',
+  // ── Electromechanical ──
+  'relays':                                              'relay',
+  'pushbutton switches & relays':                        '__switch_relay_split',
+  'switches':                                            'switch',
+  'key/switch':                                          'switch',
+  'connectors':                                          'connector',
+  'electromechanical devices & components':              'connector',
+  'terminal':                                            'connector',
+  'wires and cables':                                    'connector',
+  'wire/cable/datacable':                                'connector',
+  // ── Protection ──
+  'fuses':                                               'fuse',
+  'circuit protection':                                  'fuse',
+  'tvs/fuse/board level protection':                     'fuse',
+  // ── Sensors ──
+  'sensors':                                             'sensor',
+  'magnetic sensors':                                    'sensor',
+  // ── Modules / accessories / other ──
+  'audio components/vibration motors':                   'module',
+  'audio products / vibration motors':                   'module',
+  'audio products/micromotors':                          'module',
+  'audio products/motors':                               'module',
+  'buzzers & speakers & microphones':                    'module',
+  'battery products':                                    'module',
+  'hardware fasteners':                                  'module',
+  'hardware fasteners/seals':                            'module',
+  'hardware/fasteners/sealing':                          'module',
+  'hardwares/solders/accessories/batteries':             'module',
+  'solders / accessories / batteries':                   'module',
+  'consumables':                                         'module',
+  'consumables and auxiliary materials':                 'module',
+  'development boards & tools':                          'module',
+  'educational kits':                                    'module',
+  'electronic tools/instruments/consumables':            'module',
+  'functional modules':                                  'module',
+  'industrial control electrical':                       'module',
+  'instrumentation/meter':                               'module',
+  'iot/communication modules':                           'module',
+  'power modules':                                       'module',
+  'global sourcing parts':                               'module',
+  'old batch':                                           'module',
+  'other':                                               'module',
+  'others':                                              'module',
+  'test':                                                'module'
+};
+
+// Sub-level disambiguation for tops that bundle multiple device families.
+// Inputs are already lowercased.
+function classifySub(rule, sub){
+  switch(rule){
+    case '__inductor_xfmr_split':
+      // Inductors-&-Transformers tops: sub names the actual device class.
+      if(/accessor/.test(sub))    return 'module';
+      if(/transformer/.test(sub)) return 'transformer';
+      return 'inductor';
+    case '__diode_or_transistor':
+      // SiC devices: mostly diodes, but GaN/SiC HEMT/MOSFET also live here.
+      if(/transistor|hemt|mosfet/.test(sub)) return 'transistor';
+      return 'diode';
+    case '__led_or_ic':
+      // Optoelectronics tops mix LEDs (passive emitters) with opto-ICs.
+      if(/optocoupler|opto.?coupler|photocoupler|digital isolator|signal isolator|gate drive opto/.test(sub)) return 'ic';
+      return 'led';
+    case '__rf_split':
+      // RF tops contain antennas (passive) and RF chips (ICs).
+      if(/antenna/.test(sub)) return 'connector';
+      return 'ic';
+    case '__switch_relay_split':
+      if(/relay/.test(sub)) return 'relay';
+      return 'switch';
+  }
   return null;
 }
 
-// PRIORITY 2: map LCSC product detail JSON → category (uses lcsc.com API data)
+function mapApiCategory(subcatName, catName, description){
+  const sub  = (subcatName  || '').toLowerCase().trim();
+  const top  = (catName     || '').toLowerCase().trim();
+  const desc = (description || '').toLowerCase();
+
+  // ─── PRIMARY: deterministic LCSC catalog lookup ───
+  const direct = LCSC_TOP_MAP[top];
+  if(direct){
+    const id = direct.startsWith('__') ? classifySub(direct, sub) : direct;
+    if(id) return find(id);
+  }
+
+  // ─── FALLBACK: generic keyword detection on unknown tops ───
+  // Reached only when LCSC introduces a new top-cat not yet in LCSC_TOP_MAP.
+  // Uses standard component-type terms only — no per-code exceptions.
+  const topN = top.replace(/[\/,&]/g,' ').replace(/\s+/g,' ').trim();
+  if(/transformer/.test(sub) && !/accessor/.test(sub))          return find('transformer');
+  if(/optocoupler|digital isolator/.test(sub))                  return find('ic');
+  if(/\bleds?\b|light emitting/.test(sub))                      return find('led');
+  if(/\brelays?\b/.test(topN))                                  return find('relay');
+  if(/\bcapacitors?\b/.test(topN))                              return find('capacitor');
+  if(/\bresistors?\b/.test(topN))                               return find('resistor');
+  if(/\binductors?\b|\bcoils?\b|\bchokes?\b/.test(topN))        return find('inductor');
+  if(/\bcrystals?\b|\boscillators?\b|\bresonators?\b/.test(topN)) return find('crystal');
+  if(/\bdiodes?\b/.test(topN))                                  return find('diode');
+  if(/optoelectronic|\bleds?\b/.test(topN))                     return find('led');
+  if(/\btransistors?\b|thyristor|mosfet/.test(topN))            return find('transistor');
+  if(/\bfuses?\b|protection/.test(topN))                        return find('fuse');
+  if(/\bsensors?\b/.test(topN))                                 return find('sensor');
+  if(/\bswitches?\b/.test(topN))                                return find('switch');
+  if(/\bconnectors?\b|terminal|wire|cable/.test(topN))          return find('connector');
+  if(/\bics?\b|integrated circuit|amplifier|microcontroller|memory|interface|clock|timing|power management|isolator|driver/.test(topN)) return find('ic');
+
+  // ─── DESCRIPTION fallback: only reached when top + sub are both absent ───
+  if(/transformer/.test(desc))                                  return find('transformer');
+  if(/capacitor|tantalum/.test(desc))                           return find('capacitor');
+  if(/resistor|\bohm/.test(desc))                               return find('resistor');
+  if(/inductor|ferrite bead/.test(desc))                        return find('inductor');
+  if(/diode|zener|schottky/.test(desc))                         return find('diode');
+  if(/transistor|mosfet/.test(desc))                            return find('transistor');
+  if(/\boscillator\b|microcontroller/.test(desc))               return find('ic');
+
+  return null;
+}
+
+// PRIORITY 2: map LCSC product detail JSON → category (uses lcsc.com API data).
+// Pass subcategory and parent separately so mapApiCategory can apply position-aware rules.
 function mapLcscCategory(data){
-  const cat = ((data.catalogNodeName||'')+'|'+(data.parentCatalogName||'')).toLowerCase();
-  const desc = ((data.productIntroEn||'')+(data.productModel||'')).toLowerCase();
-  return mapApiCategory(cat, cat, desc);
+  const sub  = data.catalogName       || data.wmCatalogNameEn || '';
+  const top  = data.parentCatalogName || '';
+  const desc = (data.productIntroEn || data.productDescEn || '') + ' ' + (data.productModel || '');
+  return mapApiCategory(sub, top, desc);
 }
 
 // PRIORITY 3: local keyword/prefix match on part number (last resort)
@@ -402,9 +583,9 @@ function showResult(cat, apiData, lcscData, qrData, apiSource){
     [['Part Number', apiData.mfr],
      ['Descrizione', apiData.description],
      ['Package',     apiData.package],
-     ['Categoria API', [apiData.subcategory_name, apiData.category_name].filter(Boolean).join(' › ')],
+     ['Categoria API', [apiData.subcategory, apiData.category].filter(Boolean).join(' › ')],
      ['Stock JLCPCB', apiData.stock!=null ? apiData.stock.toLocaleString('it') : null],
-     ['Prezzo (1pz)', apiData.price1!=null ? '$ '+Number(apiData.price1).toFixed(4) : null]
+     ['Prezzo (1pz)', apiData.firstPrice!=null ? '$ '+Number(apiData.firstPrice).toFixed(4) : null]
     ].forEach(([k,v])=>{
       if(v===undefined||v===null||v==='') return;
       const r=document.createElement('div');
@@ -416,13 +597,14 @@ function showResult(cat, apiData, lcscData, qrData, apiSource){
     document.getElementById('apiInfoTitle').textContent='🌐 Dati da LCSC API';
     apiCard.style.display='block';
     const d=lcscData;
+    const firstUsd = Array.isArray(d.productPriceList)&&d.productPriceList.length ? d.productPriceList[0].usdPrice : null;
     [['Part Number',  d.productModel],
      ['Produttore',   d.brandNameEn],
-     ['Descrizione',  d.productIntroEn],
+     ['Descrizione',  d.productIntroEn||d.productDescEn],
      ['Package',      d.encapStandard],
-     ['Categoria',    [d.catalogNodeName, d.parentCatalogName].filter(Boolean).join(' › ')],
+     ['Categoria',    [d.catalogName||d.wmCatalogNameEn, d.parentCatalogName].filter(Boolean).join(' › ')],
      ['Stock LCSC',   d.stockNumber!=null ? Number(d.stockNumber).toLocaleString('it') : null],
-     ['Prezzo (1pz)', d.usdPrice!=null ? '$ '+Number(d.usdPrice).toFixed(4) : null]
+     ['Prezzo (1pz)', firstUsd!=null ? '$ '+Number(firstUsd).toFixed(4) : null]
     ].forEach(([k,v])=>{
       if(v===undefined||v===null||v==='') return;
       const r=document.createElement('div');
@@ -482,18 +664,22 @@ async function fetchJlcsearch(lcscCode){
   if(!res.ok) throw new Error('HTTP '+res.status);
   const json=await res.json();
   const list=json.components||[];
-  return list.find(c=>String(c.lcsc)===num)||list[0]||null;
+  const c=list.find(x=>String(x.lcsc)===num)||list[0]||null;
+  if(c && typeof c.price==='string'){
+    try{ const lad=JSON.parse(c.price); if(Array.isArray(lad)&&lad.length) c.firstPrice=lad[0].price; }catch(e){}
+  }
+  return c;
 }
 
-// ─── API 2: LCSC product detail (full catalog) ────────────────────────────
+// ─── API 2: LCSC product detail via CORS proxy (full catalog) ─────────────
+// wmsc.lcsc.com sends no CORS headers → must go through proxy for browser fetch.
 async function fetchLcscDetail(lcscCode){
   const num=lcscCode.toString().toUpperCase().replace(/^C/,'');
-  // LCSC public product detail endpoint (no auth required for product lookup)
-  const url=`https://wmsc.lcsc.com/ftps/wm/product/detail?productCode=C${num}`;
-  const res=await fetch(url,{signal:AbortSignal.timeout(6000)});
+  const target=`https://wmsc.lcsc.com/ftps/wm/product/detail?productCode=C${num}`;
+  const url=`https://api.codetabs.com/v1/proxy/?quest=${encodeURIComponent(target)}`;
+  const res=await fetch(url,{signal:AbortSignal.timeout(8000)});
   if(!res.ok) throw new Error('HTTP '+res.status);
   const json=await res.json();
-  // result is under json.result.productDetailUrl or json.result directly
   const r=json.result||json;
   if(!r||!r.productModel) return null;
   return r;
@@ -530,7 +716,7 @@ async function searchByCode(){
 
   let cat;
   if(apiData){
-    cat=mapApiCategory(apiData.subcategory_name,apiData.category_name,apiData.description)||classifyLocal(apiData.mfr||'','C'+num);
+    cat=mapApiCategory(apiData.subcategory,apiData.category,apiData.description||apiData.mfr)||classifyLocal(apiData.mfr||'','C'+num);
   } else if(lcscData){
     cat=mapLcscCategory(lcscData)||classifyLocal(lcscData.productModel||'','C'+num);
   } else {
@@ -583,7 +769,7 @@ async function parseQR(){
 
   let cat;
   if(apiData){
-    cat=mapApiCategory(apiData.subcategory_name,apiData.category_name,apiData.description)||classifyLocal(data.pm||'',pc);
+    cat=mapApiCategory(apiData.subcategory,apiData.category,apiData.description||apiData.mfr)||classifyLocal(data.pm||'',pc);
   } else if(lcscData){
     cat=mapLcscCategory(lcscData)||classifyLocal(data.pm||'',pc);
   } else {
