@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <rect width="192" height="192" rx="32" fill="#4f98a3"/>
+  <!-- top-left corner square -->
+  <rect x="22" y="22" width="52" height="52" rx="8" fill="white"/>
+  <rect x="30" y="30" width="36" height="36" rx="4" fill="#4f98a3"/>
+  <!-- top-right corner square -->
+  <rect x="118" y="22" width="52" height="52" rx="8" fill="white"/>
+  <rect x="126" y="30" width="36" height="36" rx="4" fill="#4f98a3"/>
+  <!-- bottom-left corner square -->
+  <rect x="22" y="118" width="52" height="52" rx="8" fill="white"/>
+  <rect x="30" y="126" width="36" height="36" rx="4" fill="#4f98a3"/>
+  <!-- bottom-right data dots -->
+  <rect x="118" y="118" width="22" height="22" rx="4" fill="white"/>
+  <rect x="148" y="118" width="22" height="22" rx="4" fill="white"/>
+  <rect x="118" y="148" width="22" height="22" rx="4" fill="white"/>
+  <rect x="148" y="148" width="22" height="22" rx="4" fill="white"/>
+  <!-- inner corner dots -->
+  <rect x="38" y="38" width="20" height="20" rx="2" fill="rgba(255,255,255,0.4)"/>
+  <rect x="134" y="38" width="20" height="20" rx="2" fill="rgba(255,255,255,0.4)"/>
+  <rect x="38" y="134" width="20" height="20" rx="2" fill="rgba(255,255,255,0.4)"/>
+</svg>
